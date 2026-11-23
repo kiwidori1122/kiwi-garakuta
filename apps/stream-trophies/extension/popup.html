@@ -1,0 +1,34 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>配信トロフィー</title><link rel="stylesheet" href="popup.css"></head><body>
+<header><span class="mark">✦</span><div><h1>配信トロフィー</h1><small>YOUR STREAM COLLECTION</small></div></header>
+<section id="welcome" hidden>
+  <p class="lead"><b>インストールありがとう！</b></p>
+  <p class="note">対応している配信者のライブを開くと、自動で見つけて「連携する」が出ます。合言葉をチャットに1回書くだけで、あとはいつも通り見るだけで記録されます。Googleログインは不要です。</p>
+</section>
+<section id="link" hidden>
+  <p class="lead"><b id="link-title"></b> と連携します。ライブ配信のチャットに、この合言葉を<b>1回だけ</b>書き込んでください。</p>
+  <div class="code-box"><code id="code">!link ······</code><button id="copy" class="secondary small">コピー</button></div>
+  <p id="expires" class="note"></p>
+  <p class="note">書き込むと自動で連携が完了します。接続先：<span id="link-server"></span></p>
+  <button id="new-code" class="text-button">新しい合言葉を発行</button>
+  <button id="cancel-link" class="text-button">やめる</button>
+</section>
+<section id="detail" hidden>
+  <button id="back" class="text-button left">← 一覧へ</button>
+  <p id="name"></p>
+  <div id="stats"><div><strong id="watch">0</strong><span>視聴時間 / h</span></div><div><strong id="count">0</strong><span>トロフィー</span></div></div>
+  <label class="switch"><span>このチャンネルの視聴時間を記録する</span><input id="enabled" type="checkbox"></label>
+  <button id="open-collection">トロフィー図鑑を開く ↗</button>
+  <div class="line"></div>
+  <a id="privacy" href="#">このチャンネルのデータの取り扱い ↗</a>
+  <button id="disconnect" class="text-button">このブラウザの連携を解除</button>
+  <button id="delete" class="text-button danger">このチャンネルでの自分の記録をすべて削除</button>
+</section>
+<section id="list">
+  <div id="current" hidden class="current"><p><b id="current-title"></b> の配信は配信トロフィーに対応しています。</p><button id="current-link">連携する</button></div>
+  <h2>連携中のチャンネル</h2>
+  <div id="servers"></div>
+  <p id="empty" class="note" hidden>まだありません。対応している配信者のライブを開くと、ここから連携できます。</p>
+  <details><summary>接続先を手動で追加</summary><label>配信者から教えてもらったURL<input id="manual" type="url" placeholder="https://…workers.dev"></label><button id="add" class="secondary">追加して連携する</button></details>
+</section>
+<p id="status" role="status"></p>
+<script src="popup.js"></script></body></html>

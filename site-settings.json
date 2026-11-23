@@ -5,8 +5,13 @@
   "profile_name": "きうい",
   "profile_text": "APEXやNTEを遊びつつ、楽しく遊ぶためのものづくりをしています。「これがあったら便利かも」と思った小さなソフトを、ここに置いています。気になるものがあれば、気軽に使ってみてください。",
   "stream_trophy": {
-    "download_url": "/assets/downloads/stream-trophy-extension.zip",
+    "download_url": "/assets/downloads/stream-trophy-extension-v2.0.0.zip",
     "store_url": "",
-    "privacy_url": "https://stream-trophies.kiwi-tech-tech.workers.dev/privacy"
+    "server_download_url": "/assets/downloads/stream-trophies-server-v2.0.0.zip",
+    "source_url": "https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/stream-trophies"
+  },
+  "apex_rank_overlay": {
+    "download_url": "/assets/downloads/apex-rank-overlay-v1.0.0.zip",
+    "source_url": "https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/apex-rank-overlay"
   }
 }

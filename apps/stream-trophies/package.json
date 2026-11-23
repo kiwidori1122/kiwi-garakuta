@@ -1,0 +1,22 @@
+{
+  "name": "stream-trophies",
+  "version": "2.0.0",
+  "private": true,
+  "description": "配信トロフィー：YouTubeライブの視聴者トロフィー（Cloudflare Workers + D1、共通拡張）",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "update": "node scripts/setup.mjs --update",
+    "demo": "node scripts/demo.mjs",
+    "test": "node --test tests/extension.test.cjs tests/web-accounts.test.mjs tests/celebrations.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.164.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "oauth4webapi": "3.8.9"
+  },
+  "license": "MIT"
+}

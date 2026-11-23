@@ -1,0 +1,11 @@
+{
+  // セットアップが wrangler.jsonc を自動生成します。直接編集は不要です。
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "stream-trophies",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-06-01",
+  "assets": { "directory": "./public", "binding": "ASSETS" },
+  "d1_databases": [{ "binding": "DB", "database_name": "stream-trophies", "database_id": "__DATABASE_ID__", "migrations_dir": "migrations" }],
+  "triggers": { "crons": ["* * * * *"] },
+  "observability": { "enabled": false }
+}

@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "配信トロフィー",
+  "version": "2.0.0",
+  "description": "対応しているYouTubeライブを見るだけで、視聴時間やコメントでトロフィーが集まります。Googleログイン不要。",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "配信トロフィー",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "core.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "homepage_url": "https://kiwi-garakuta.pages.dev/stream-trophy/"
+}

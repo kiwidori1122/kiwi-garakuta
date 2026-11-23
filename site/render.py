@@ -105,9 +105,12 @@ class Site:
         share_image = self.tools[tool_slug]['screenshot'] if tool_slug in self.tools else '/assets/screenshots/kiwi-image-workbench-public.png'
         share_alt = (self.tools[tool_slug]['name'] if tool_slug in self.tools else 'きうい画像・PNG工房') + 'の動作画面'
         share_width, share_height = image_size(share_image)
-        if path == '/stream-trophy/':
-            share_image, share_alt = '/assets/favicon.svg', '配信トロフィー'
-            share_width, share_height = 64, 64
+        if path.startswith('/stream-trophy/'):
+            share_image, share_alt = '/assets/screenshots/stream-trophy-collection.png', '配信トロフィーのトロフィー図鑑'
+            share_width, share_height = image_size(share_image)
+        elif path == '/apex-rank-overlay/':
+            share_image, share_alt = '/assets/screenshots/apex-rank-overlay.png', 'Apexランク表示オーバーレイ'
+            share_width, share_height = image_size(share_image)
         return f'''<!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="{esc(description)}"><title>{esc(full_title)}</title>
@@ -153,7 +156,7 @@ class Site:
             picks = ''.join(f'<a class="quick-pick" href="/tools/{f["slug"]}/"><span class="pick-icon">{icon(self.meta[f["slug"]]["category"])}</span><span><strong>{esc(self.tools[f["slug"]]["name"].removeprefix("きうい"))}</strong><small>{esc(f["reason"])}</small></span>{icon("arrow")}</a>' for f in self.discovery['featured'])
             examples = ''.join(f'<a href="/?q={quote(term)}#software" data-search-example="{esc(term)}">{esc(term)}</a>' for term in ['写真', 'PDF', '文字起こし', 'ファイルを送る'])
             hero = f'''<section class="home-hero"><div class="hero-copy"><div class="eyebrow"><span class="status-dot"></span>無料のWindowsソフト · {len(self.active)}本公開中</div><h1>あの「ちょっと面倒」を、<br><em>ちょっと便利に。</em></h1><p class="lead">写真を整える。PDFをまとめる。ファイルを渡す。<br>日々の作業と遊びに役立つ、小さな道具を集めました。</p>{self.search()}<div class="search-examples"><span>たとえば</span>{examples}</div></div>
-<aside class="quick-start" aria-label="まずはここから"><div class="section-kicker">まずはここから</div>{picks}<a class="quick-pick" href="/stream-trophy/"><span class="pick-icon">{icon('check')}</span><span><strong>配信トロフィー</strong><small>コメントや視聴時間で集める・参加方法はこちら</small></span>{icon('arrow')}</a><a class="guide-link" href="/guide/">はじめて使う方へ：ZIPの開き方 {icon('arrow')}</a></aside></section>'''
+<aside class="quick-start" aria-label="まずはここから"><div class="section-kicker">まずはここから</div>{picks}<a class="quick-pick" href="/stream-trophy/"><span class="pick-icon">{icon('check')}</span><span><strong>配信トロフィー</strong><small>コメントや視聴時間で集める・参加方法はこちら</small></span>{icon('arrow')}</a><a class="quick-pick" href="/stream-trophy/streamers/"><span class="pick-icon">{icon('check')}</span><span><strong>配信者向けの無料ツール</strong><small>視聴者トロフィー・Apexランク表示を自分の配信に</small></span>{icon('arrow')}</a><a class="guide-link" href="/guide/">はじめて使う方へ：ZIPの開き方 {icon('arrow')}</a></aside></section>'''
         counts = {c: sum(self.meta[t['slug']]['category'] == c for t in self.active) for c in self.categories}
         all_current = 'aria-current="true"' if chosen == 'all' else ''
         filters = f'<a href="/#software" data-filter="all" data-label="すべて" {all_current}>すべて <span>{len(self.active)}</span></a>'
@@ -173,7 +176,7 @@ class Site:
                 links = ''.join(f'<li><a href="/tools/{slug}/">{esc(self.tools[slug]["name"])} {icon("arrow")}</a></li>' for slug in journey['slugs'])
                 entries += f'<article class="journey"><h3>{esc(journey["title"])}</h3><p>{esc(journey["description"])}</p><ol>{links}</ol></article>'
             journeys = f'<section class="workflow-section" aria-labelledby="workflow-title"><div class="section-heading"><div><p class="section-kicker">こんなときに</p><h2 id="workflow-title">やりたいことから、道具を選ぶ。</h2></div></div><div class="journey-grid">{entries}</div></section>'
-        trophy_link = '<p><a href="/stream-trophy/">配信トロフィー — 配信に参加して集める</a></p>' if not category else ''
+        trophy_link = '<p><a href="/stream-trophy/">配信トロフィー — 配信に参加して集める</a></p><p><a href="/stream-trophy/streamers/">配信者向け：視聴者トロフィーを自分の配信に</a> · <a href="/apex-rank-overlay/">Apexランク表示オーバーレイ</a></p>' if not category else ''
         profile = f'''<section class="profile" id="about" aria-labelledby="profile-title"><div class="profile-heading"><img src="/assets/favicon.svg" alt="" width="64" height="64"><div><span class="section-kicker">このサイトの人</span><h2 id="profile-title">{esc(self.settings['profile_name'])}です。</h2></div></div><div><p>{esc(self.settings['profile_text'])}</p>{self.socials()}{trophy_link}</div></section>'''
         description = f'{category["description"]}。Windows 11用の無料ソフトを用途から探せます。' if category else '写真・画像、PDF、動画、ファイル整理など、日々の作業に役立つWindows 11用の無料ソフト。用途やキーワードから探してダウンロードできます。'
         return self.page(category['label'] if category else self.settings['site_name'], description, hero + listing + journeys + profile, f'/categories/{chosen}/' if category else '/', catalog=True)
@@ -242,7 +245,15 @@ class Site:
 
     def stream_trophy(self):
         from stream_trophy import content
-        return self.page('配信トロフィー', 'きういのYouTube配信で、コメントや視聴時間に応じてトロフィーが集まる仕組みの参加方法。専用のGoogleログインは不要です。', content(self.settings), '/stream-trophy/')
+        return self.page('配信トロフィー', '対応しているYouTube配信で、コメントや視聴時間に応じてトロフィーが集まる拡張の入れ方と参加方法。専用のGoogleログインは不要です。', content(self.settings), '/stream-trophy/')
+
+    def stream_trophy_streamers(self):
+        from stream_trophy import streamers
+        return self.page('配信トロフィーを自分の配信で使う', 'YouTube配信に視聴者トロフィーとOBSの獲得演出を追加する無料ツール。Cloudflare無料枠で動き、視聴者用の拡張は共通です。', streamers(self.settings), '/stream-trophy/streamers/')
+
+    def apex_overlay(self):
+        from stream_trophy import apex_overlay
+        return self.page('Apexランク表示オーバーレイ', 'Apex Legendsのランク・RP・今日の増減・目標までの残りRPを表示する、無料のOBS用ブラウザソース。URLを作って貼るだけ。', apex_overlay(self.settings), '/apex-rank-overlay/')
 
     def guide(self):
         body = f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span>はじめての方へ</span></nav>

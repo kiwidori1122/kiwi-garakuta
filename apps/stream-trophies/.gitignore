@@ -1,0 +1,7 @@
+node_modules/
+.wrangler/
+.dev.vars
+wrangler.jsonc
+.setup-state.json
+管理画面URL.txt
+dist/

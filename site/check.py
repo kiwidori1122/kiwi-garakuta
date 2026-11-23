@@ -104,6 +104,9 @@ class Document(HTMLParser):
         return [node for node in self.elements if node.tag == tag]
 
 
+STANDALONE_TOOLS = ("assets/apex-rank-overlay/",)
+
+
 class SiteCheck:
     def __init__(self, dist: Path, catalog: list[dict], base_url: str):
         self.dist = dist.resolve()
@@ -135,6 +138,9 @@ class SiteCheck:
             if any(part.lower() in PRIVATE_PARTS for part in relative.parts) or path.name.lower() in PRIVATE_FILES:
                 self.error("/", f"private file in output: {relative.as_posix()}")
             if path.suffix.lower() != ".html":
+                continue
+            # OBSに読み込ませる単体ツール（配信オーバーレイ）は、サイトのページ規則の対象外
+            if relative.as_posix().startswith(STANDALONE_TOOLS):
                 continue
             route = self.public_route(path)
             doc = Document(path, route)

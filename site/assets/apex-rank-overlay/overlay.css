@@ -1,0 +1,45 @@
+/* ===== 見た目の調整はここ ===== */
+  :root{
+    --accent: #7fd6ff;      /* ティアで自動上書きされる */
+    --bg: rgba(18,20,30,.78);
+    --text: #fff;
+    --sub: #b9c2d6;
+    --scale: 1;             /* URLの #scale=1.2 で変更 */
+  }
+  html,body{margin:0;background:transparent;overflow:hidden;
+    font-family:"M PLUS Rounded 1c","Noto Sans JP","Yu Gothic UI",sans-serif;}
+  #wrap{display:flex;justify-content:center;padding:14px;}
+  #card{
+    transform:scale(var(--scale));transform-origin:top center;
+    display:flex;align-items:center;gap:12px;
+    padding:10px 18px 10px 10px;border-radius:999px;
+    background:var(--bg);color:var(--text);
+    border:2px solid var(--accent);
+    box-shadow:0 0 14px color-mix(in srgb,var(--accent) 55%,transparent);
+    position:relative;transition:border-color .6s, box-shadow .6s;
+  }
+  #icon{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 0 6px var(--accent));}
+  #main{display:flex;flex-direction:column;min-width:170px;}
+  #tier{font-size:22px;font-weight:800;letter-spacing:.04em;line-height:1.1;
+    text-shadow:0 2px 0 rgba(0,0,0,.5);}
+  #tier .div{color:var(--accent);margin-left:4px;}
+  #rprow{display:flex;align-items:baseline;gap:8px;margin-top:2px;}
+  #rp{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;}
+  #delta{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;}
+  #delta.up{color:#6dffa0}#delta.down{color:#ff7b8a}#delta.zero{color:var(--sub)}
+  #bar{height:6px;border-radius:3px;background:rgba(255,255,255,.15);margin-top:5px;overflow:hidden;}
+  #fill{height:100%;width:0;background:var(--accent);border-radius:3px;transition:width 1.2s cubic-bezier(.2,.8,.2,1);}
+  #goal{font-size:12px;color:var(--sub);margin-top:3px;}
+  #goal b{color:var(--text)}
+  #pop{position:absolute;right:14px;top:-6px;font-size:22px;font-weight:900;opacity:0;pointer-events:none;
+    text-shadow:0 2px 0 rgba(0,0,0,.6);}
+  #pop.show{animation:pop 2.6s ease-out forwards;}
+  @keyframes pop{0%{opacity:0;transform:translateY(10px) scale(.8)}
+    12%{opacity:1;transform:translateY(-6px) scale(1.15)}
+    70%{opacity:1;transform:translateY(-14px) scale(1)}
+    100%{opacity:0;transform:translateY(-26px)}}
+  #card.levelup{animation:glow 1.8s ease-in-out 3;}
+  @keyframes glow{50%{box-shadow:0 0 40px var(--accent),0 0 80px var(--accent);}}
+  #err{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);
+    font-size:10px;color:#ff9aa5;white-space:nowrap;display:none;}
+#icon[hidden]{display:none}

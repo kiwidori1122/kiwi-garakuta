@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apexランク表示 オーバーレイ設定</title>
+<link rel="stylesheet" href="setup.css">
+</head>
+<body>
+<main>
+  <h1>Apexランク表示 オーバーレイ</h1>
+  <p class="lead">アバターの頭上などに、いまのランク・RP・今日の増減・目標までの残りを表示するOBS用の部品です。入力した内容でOBS用のURLを作ります。</p>
+
+  <section>
+    <h2>1. APIキーを用意する</h2>
+    <p class="note flush"><a href="https://apexlegendsapi.com/" target="_blank" rel="noopener">apexlegendsapi.com</a>（Apex Legends Status）で、無料のAPIキーを取得します。キーは他の人に見せないでください。</p>
+  </section>
+
+  <section>
+    <h2>2. 自分のアカウントを入力する</h2>
+    <label>APIキー（必須）<input id="key" autocomplete="off" spellcheck="false"></label>
+    <div class="row">
+      <label>EA ID（プレイヤー名）<input id="player" autocomplete="off" spellcheck="false"></label>
+      <label>UID（数字。名前で出ないとき）<input id="uid" inputmode="numeric" autocomplete="off"></label>
+    </div>
+    <p class="note">同じ名前のアカウントが複数ある場合や、Steam版で名前が違う場合は、<a href="https://apexlegendsstatus.com/" target="_blank" rel="noopener">apexlegendsstatus.com</a> で自分を検索し、プロフィールに出るUIDを入れてください。UIDを入れると名前より優先されます。</p>
+    <div class="row">
+      <label>機種
+        <select id="platform"><option value="PC">PC（Steam / EAアプリ）</option><option value="PS4">PlayStation</option><option value="X1">Xbox</option><option value="SWITCH">Switch</option></select>
+      </label>
+      <label>目標のティア
+        <select id="goal"><option value="Gold">ゴールド</option><option value="Platinum">プラチナ</option><option value="Diamond" selected>ダイヤ</option><option value="Master">マスター</option></select>
+      </label>
+    </div>
+    <div class="row">
+      <label>取得間隔（秒）<input id="poll" type="number" min="60" max="600" value="120"></label>
+      <label>「今日の増減」を数え直す時刻（時）<input id="reset" type="number" min="0" max="23" value="18"></label>
+    </div>
+    <label>表示の大きさ<input id="scale" type="number" min="0.5" max="3" step="0.1" value="1"></label>
+    <p class="note">取得間隔は、短すぎると無料キーの回数制限にかかります。1試合は早くても2〜3分なので、120秒がおすすめです。「数え直す時刻」は、深夜配信の途中でリセットされないよう、配信しない時間帯にしてください。</p>
+  </section>
+
+  <section>
+    <h2>3. OBSに追加する</h2>
+    <div id="url">APIキーとプレイヤーを入力すると、ここにURLが出ます</div>
+    <div class="buttons"><button id="copy">URLをコピー</button><button id="demo" class="secondary">お試し表示（APIを使わない）</button></div>
+    <p id="msg" role="status"></p>
+    <iframe id="preview" title="プレビュー"></iframe>
+    <ol class="note steps">
+      <li>OBSで「ソース」の＋ →「ブラウザ」を追加します</li>
+      <li>「ローカルファイル」のチェックは外したまま、URL欄にコピーしたURLを貼ります</li>
+      <li>幅 460・高さ 140 くらいにして、アバターの頭上に置きます</li>
+    </ol>
+    <p class="note">URLにはAPIキーが入っています。配信画面や画面共有に映さないでください。「#」より後ろはサーバーに送られない部分なので、このサイトにもキーは届きません。</p>
+  </section>
+
+  <p class="note">表示のRPの区切りはEA公式ヘルプの表から計算した目安です。シーズンで変わってずれた場合は、overlay.html の THRESHOLDS を書き換えて使えます（ダウンロード版）。<br>このツールはApex Legends Status の非公式APIを使います。EA・Respawnとは関係ありません。</p>
+</main>
+<script src="setup.js"></script>
+</body>
+</html>

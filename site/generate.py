@@ -76,7 +76,7 @@ def main():
     if DIST.resolve().parent != ROOT.resolve() or DIST.is_symlink() or getattr(DIST, 'is_junction', lambda: False)():
         raise ValueError('Output must be a normal directory inside this project')
     site = Site(settings, support, catalog, discovery, downloads)
-    pages = {'/': site.home(), '/guide/': site.guide(), '/stream-trophy/': site.stream_trophy(), '/404.html': site.not_found()}
+    pages = {'/': site.home(), '/guide/': site.guide(), '/stream-trophy/': site.stream_trophy(), '/stream-trophy/streamers/': site.stream_trophy_streamers(), '/apex-rank-overlay/': site.apex_overlay(), '/404.html': site.not_found()}
     pages.update({f'/tools/{tool["slug"]}/': site.tool(tool) for tool in catalog})
     pages.update({f'/categories/{category["id"]}/': site.home(category) for category in categories})
     if DIST.exists():
@@ -103,6 +103,9 @@ def main():
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'
 /assets/*
   Cache-Control: public, max-age=3600, must-revalidate
+/assets/apex-rank-overlay/*
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https: data:; font-src 'self'; connect-src https://api.mozambiquehe.re https:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'
 ''', encoding='utf8', newline='\n')
     from check import SiteCheck
     report = SiteCheck(DIST, catalog, BASE + '/').run(ROOT / 'site/discovery.json')
