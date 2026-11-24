@@ -70,6 +70,8 @@ try {
   if ($LASTEXITCODE -ne 0) { Pop-Location; Fail "setup-credential.sh が失敗しました" }
   & git fetch -q origin
   if ($LASTEXITCODE -ne 0) { Pop-Location; Fail "GitHub に接続できませんでした" }
+  & git merge -q --ff-only origin/main
+  if ($LASTEXITCODE -ne 0) { Write-Host "⚠ 最新の状態に更新できませんでした（作業中の変更があるかもしれません）。チェックは今の内容で行います" -ForegroundColor Yellow }
   Pop-Location
   Ok "名義・チェック用フック・GitHub への接続を設定しました"
 
@@ -77,6 +79,7 @@ try {
   if (-not (Test-Path $Deny)) {
     Write-Host "公開リポジトリに絶対に入れたくない言葉を、カンマ区切りで入力してください"
     Write-Host "（例：本名の名字・名前のローマ字と漢字、会社名、会社メールの@より前、PCのユーザー名、昔のアカウント名、昔のメールアドレス）"
+    Write-Host "短い言葉は先頭に = を付けると、単語としてそのまま出てきたときだけ止めます（例：=taro は Kintaro には反応しない）"
     $words = @((Read-Host "言葉") -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
     if ($words.Count -lt 1) { Fail "1つ以上入力してください" }
     [IO.File]::WriteAllText($Deny, (($words -join "`n") + "`n"), (New-Object Text.UTF8Encoding $false))

@@ -40,8 +40,19 @@ guard_deny_file() {
 }
 
 # 標準入力に出してはいけない言葉が含まれていたら 0 を返す（大文字小文字は区別しない）
+# 一覧の行の先頭に = を付けた言葉は、単語としてそのまま出てきたときだけ一致にする
+# （例: =taro は「taro」「Taro」には一致し、「Kintaro」には一致しない）
 guard_has_denied() {
-  LC_ALL=C grep -a -i -F -q -f "$1"
+  _in="$1.in"; _sub="$1.sub"; _word="$1.word"
+  cat > "$_in"
+  grep -v '^=' "$1" > "$_sub"
+  sed -n 's/^=//p' "$1" | sed '/^$/d' > "$_word"
+  _r=1
+  if [ -s "$_sub" ] && LC_ALL=C grep -a -i -F -q -f "$_sub" "$_in"; then _r=0
+  elif [ -s "$_word" ] && LC_ALL=C grep -a -i -w -F -q -f "$_word" "$_in"; then _r=0
+  fi
+  rm -f "$_in" "$_sub" "$_word"
+  return $_r
 }
 
 guard_email_allowed() {
