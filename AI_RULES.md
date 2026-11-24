@@ -19,7 +19,8 @@ sh tools/guard/setup-local.sh
 3. **チェックを止めたり、すり抜けたりしない。** `--no-verify` は使わないでください。`.githooks/`、`tools/guard/`、`.github/workflows/name-guard.yml`、`.claude/settings.json`、このファイル（`AI_RULES.md`）を消したり弱めたりしないでください。フックに止められたら、内容のほうを直します。
 4. **履歴を書き換えない。** force push、rebase して push、タグの付け直しはしないでください。
 5. **配布ファイル（ZIP・exe）は手元でビルドしてアップロードしない。** 手元でビルドすると、PCのユーザー名入りのパスが埋め込まれることがあります。リリースはタグを push して、`.github/workflows/release-*.yml` に GitHub Actions で作らせます。
-6. **GitHub CLI（gh）は kiwidori1122 で使う。** `gh api user --jq .login` が `kiwidori1122` でなければ、gh を使う操作は止めて、ユーザーに伝えてください。
+6. **GitHub CLI は `sh tools/guard/gh.sh …` 経由で使う。** 専用ログインを使い、`kiwidori1122` であることを操作前に検査します。別PCの通常の gh ログインを使わず、エラーなら止めてください。作業クローンを新しく作ったときも、最初に `setup-local.sh` を実行してください。
+7. **検査エラーに秘密を書き足さない。** 検査は問題の文字列・パスを表示しません。原因を調べる記録は gitignored の `data/` に置き、公開コミットやチャットへそのまま貼らないでください。短い禁止語が上流ライセンスの別人名などに反応した場合も、必要な著作権表示を削らないでください。
 
 「出してはいけない言葉」の一覧は、公開できないのでこのリポジトリには入っていません。各PCの `~/.kiwi-guard/deny.txt`、または環境変数 `KIWI_GUARD_DENY` から読みます。一覧がなくてコミットが止まったら、回避せずにユーザーに伝えてください。
 

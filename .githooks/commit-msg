@@ -1,6 +1,2 @@
 #!/bin/sh
-# コミットメッセージを検査する
-. "$(git rev-parse --show-toplevel)/tools/guard/lib.sh"
-deny="$(guard_deny_file)" || guard_fail "出してはいけない言葉の一覧がありません。tools/setup-pc.bat を実行してください"
-if guard_has_denied "$deny" < "$1"; then rm -f "$deny"; guard_fail "コミットメッセージに出してはいけない言葉があります"; fi
-rm -f "$deny"; exit 0
+exec sh "$(git rev-parse --show-toplevel)/tools/guard/run.sh" message "$1"

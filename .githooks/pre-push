@@ -1,10 +1,2 @@
 #!/bin/sh
-# push する前に、送るコミットを全部検査する（--no-verify で作られたコミットや、ほかの道具で作ったコミットも止める）
-root="$(git rev-parse --show-toplevel)"
-zero=0000000000000000000000000000000000000000
-while read -r lref lsha rref rsha; do
-  [ "$lsha" = "$zero" ] && continue   # 削除の push
-  if [ "$rsha" = "$zero" ]; then sh "$root/tools/guard/check-range.sh" "$lsha" --not --remotes || exit 1
-  else sh "$root/tools/guard/check-range.sh" "$rsha..$lsha" || exit 1; fi
-done
-exit 0
+exec sh "$(git rev-parse --show-toplevel)/tools/guard/run.sh" push "$@"

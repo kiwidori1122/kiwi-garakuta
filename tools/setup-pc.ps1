@@ -4,7 +4,7 @@
 #  3. このリポジトリだけの git 設定（名義・チェック用フック・GitHub への接続）
 #  4. 「出してはいけない言葉」の一覧を作る（%USERPROFILE%\.kiwi-guard\deny.txt。公開しない）
 #  5. 全履歴を検査して動作確認
-param([string]$RepoDir = "")
+param([string]$RepoDir = "", [switch]$NonInteractive)
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 if (-not $RepoDir) { $RepoDir = Join-Path $env:USERPROFILE "kiwi-garakuta" }
@@ -27,6 +27,7 @@ try {
   $gh = (Get-Command gh -ErrorAction SilentlyContinue).Source
   if (-not $gh -and (Test-Path "$env:ProgramFiles\GitHub CLI\gh.exe")) { $gh = "$env:ProgramFiles\GitHub CLI\gh.exe" }
   if (-not $gh) {
+    if ($NonInteractive) { Fail "GitHub CLI is required; run the interactive setup once" }
     Write-Host "GitHub CLI を入れます..."
     winget install --id GitHub.cli -e --accept-source-agreements --accept-package-agreements
     if (Test-Path "$env:ProgramFiles\GitHub CLI\gh.exe") { $gh = "$env:ProgramFiles\GitHub CLI\gh.exe" } else { Fail "GitHub CLI を入れたら、このウィンドウを閉じてもう一度実行してください" }
@@ -35,12 +36,13 @@ try {
   $env:GH_CONFIG_DIR = $GhDir
   $o = $ErrorActionPreference; $ErrorActionPreference = "Continue"; & $gh auth status -h github.com 2>&1 | Out-Null; $code = $LASTEXITCODE; $ErrorActionPreference = $o
   if ($code -ne 0) {
+    if ($NonInteractive) { Fail "The dedicated GitHub login is not ready" }
     Write-Host "ブラウザで GitHub にログインします。必ず $Owner のアカウントで許可してください"
     Write-Host "途中で「Authenticate Git with your GitHub credentials?」と聞かれたら n を押してください（このPCのほかの設定を変えないため）"
     & $gh auth login -h github.com -p https -w -s "repo,workflow"
   }
   $me = (& $gh api user --jq .login)
-  if ($me -ne $Owner) { Fail "GitHub CLI が $me でログインしています。黒い画面で「set GH_CONFIG_DIR=$GhDir」→「gh auth logout」をしてから、もう一度実行してください" }
+  if ($me -ne $Owner) { Fail "専用のGitHubログインが一致しません。ほかの名義は表示しません。専用設定でログインし直してください" }
   Ok "GitHub CLI: $me（このPCのほかの gh ログインとは別に保存しています）"
 
   Step "2/5 リポジトリ：$RepoDir"
@@ -49,10 +51,10 @@ try {
     $root = (& git -C $RepoDir rev-list --max-parents=0 HEAD 2>$null | Select-Object -Last 1)
     $ErrorActionPreference = $o
     if ($root -ne $RootCommit) {
-      $old = "$RepoDir.old-" + (Get-Date -Format "yyyyMMdd-HHmm")
-      Rename-Item -Path $RepoDir -NewName (Split-Path $old -Leaf)
-      Write-Host "⚠ 古い履歴の clone だったので「$old」に名前を変えました。中に名前入りの履歴があるので、使わずに消してください" -ForegroundColor Yellow
+      Fail "既存フォルダーの履歴が違います。作業ファイルを退避し、別の空のフォルダーを -RepoDir で指定してください。既存フォルダーは移動・削除しません"
     }
+    $origin = (& git -C $RepoDir remote get-url origin)
+    if ($origin -ne $Url) { Fail "接続先が現在のリポジトリと一致しません。古いコピーを使わず、新しく取得してください" }
   }
   if (-not (Test-Path $RepoDir)) {
     & git -c core.autocrlf=false clone $Url $RepoDir
@@ -68,15 +70,18 @@ try {
   $env:KIWI_GH_CONFIG_DIR = ($GhDir -replace '\\', '/')
   & $sh "tools/guard/setup-credential.sh"
   if ($LASTEXITCODE -ne 0) { Pop-Location; Fail "setup-credential.sh が失敗しました" }
+  $dirty = (& git status --porcelain)
+  if ($dirty) { Pop-Location; Fail "作業中の変更があります。保存・コミットしてから初期設定を再実行してください" }
   & git fetch -q origin
   if ($LASTEXITCODE -ne 0) { Pop-Location; Fail "GitHub に接続できませんでした" }
   & git merge -q --ff-only origin/main
-  if ($LASTEXITCODE -ne 0) { Write-Host "⚠ 最新の状態に更新できませんでした（作業中の変更があるかもしれません）。チェックは今の内容で行います" -ForegroundColor Yellow }
+  if ($LASTEXITCODE -ne 0) { Pop-Location; Fail "最新の状態に更新できませんでした。履歴を結合せず、AIに確認を依頼してください" }
   Pop-Location
   Ok "名義・チェック用フック・GitHub への接続を設定しました"
 
   Step "4/5 「出してはいけない言葉」の一覧：$Deny"
   if (-not (Test-Path $Deny)) {
+    if ($NonInteractive) { Fail "The private deny file is required; run the interactive setup once" }
     Write-Host "公開リポジトリに絶対に入れたくない言葉を、カンマ区切りで入力してください"
     Write-Host "（例：本名の名字・名前のローマ字と漢字、会社名、会社メールの@より前、PCのユーザー名、昔のアカウント名、昔のメールアドレス）"
     Write-Host "短い言葉は先頭に = を付けると、単語としてそのまま出てきたときだけ止めます（例：=taro は Kintaro には反応しない）"
@@ -98,5 +103,8 @@ try {
   Write-Host "  AI は AGENTS.md のルールを読みます。コミットと push の前には自動でチェックが走ります"
 } catch {
   Write-Host ""; Write-Host "❌ $($_.Exception.Message)" -ForegroundColor Red
+  if ($NonInteractive) { exit 1 }
+  Read-Host "Enterで閉じます"
+  exit 1
 }
-Read-Host "Enterで閉じます"
+if (-not $NonInteractive) { Read-Host "Enterで閉じます" }

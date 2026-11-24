@@ -6,5 +6,7 @@
 cd "$(git rev-parse --show-toplevel)" || exit 1
 git config --local --unset-all credential.helper 2>/dev/null
 git config --local --add credential.helper ""
-git config --local --add credential.helper "!f() { GH_CONFIG_DIR='$KIWI_GH_CONFIG_DIR' '$KIWI_GH_EXE' auth git-credential \$1; }; f"
+git config --local kiwiGuard.ghPath "$KIWI_GH_EXE"
+git config --local kiwiGuard.ghConfigDir "$KIWI_GH_CONFIG_DIR"
+git config --local --add credential.helper "!sh tools/guard/git-credential.sh"
 echo "kiwi-guard: GitHub への接続を kiwidori1122 専用のログインに設定しました"
