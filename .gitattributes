@@ -123,3 +123,6 @@ apps/kiwi-silence/*.py text eol=lf
 apps/kiwi-video-sheet/*.txt -text -whitespace
 apps/kiwi-video-sheet/*.py text eol=lf
 apps/kiwi-video-sheet/*.json -text whitespace=cr-at-eol
+
+# Windows batch files must keep CRLF or cmd.exe misreads labels
+apps/stream-trophies/*.bat text eol=crlf
