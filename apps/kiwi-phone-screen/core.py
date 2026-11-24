@@ -127,12 +127,14 @@ def describe(devices):
 def run_adb(args, timeout=25):
     """同梱のadbを、ほかのプロセスと切り離して実行する（終わったら関連プロセスも閉じる）。"""
     exe = tool('adb.exe')
-    with tempfile.TemporaryDirectory(prefix='kiwi-phone-adb-') as td:
+    # adb は初回に常駐プロセス（adbサーバー）を起動する。作業フォルダーをつかまれないよう、
+    # 作業フォルダーはエンジンのフォルダーにし、一時フォルダーが消せなくてもエラーにしない
+    with tempfile.TemporaryDirectory(prefix='kiwi-phone-adb-', ignore_cleanup_errors=True) as td:
         out_path = Path(td) / 'out.txt'
         with out_path.open('wb') as out:
             group = NativeJob()
             try:
-                proc = subprocess.Popen([str(exe), *args], cwd=td, stdin=subprocess.DEVNULL, stdout=out,
+                proc = subprocess.Popen([str(exe), *args], cwd=str(exe.parent), stdin=subprocess.DEVNULL, stdout=out,
                                         stderr=subprocess.STDOUT, creationflags=subprocess.CREATE_NO_WINDOW)
                 group.attach(proc)
                 deadline = time.monotonic() + timeout
