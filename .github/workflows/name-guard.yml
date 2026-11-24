@@ -1,0 +1,40 @@
+name: Name guard
+
+# push されたコミットに、許可していない名義や「出してはいけない言葉」がないかを検査する。
+# 言葉の一覧はリポジトリのシークレット GUARD_DENY（カンマ区切り）に入れておく（公開されない）。
+# 失敗すると GitHub からメールで通知が来る。各PCのフックをすり抜けたもの（Web画面での編集など）の見張り役。
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check commits
+        env:
+          KIWI_GUARD_DENY: ${{ secrets.GUARD_DENY }}
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ -z "$KIWI_GUARD_DENY" ]; then
+            export KIWI_GUARD_ALLOW_NO_DENY=1
+            echo "::warning::シークレット GUARD_DENY が未設定なので、名義だけ検査します"
+          fi
+          if [ "$EVENT" = "pull_request" ]; then
+            sh tools/guard/check-range.sh "$PR_BASE..$PR_HEAD"
+          elif [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            sh tools/guard/check-range.sh "$AFTER"
+          else
+            sh tools/guard/check-range.sh "$BEFORE..$AFTER"
+          fi

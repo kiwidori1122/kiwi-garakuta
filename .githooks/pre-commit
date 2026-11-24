@@ -1,0 +1,22 @@
+#!/bin/sh
+# コミットの前に、名義と変更内容を検査する
+. "$(git rev-parse --show-toplevel)/tools/guard/lib.sh"
+ae="$(git var GIT_AUTHOR_IDENT | sed -n 's/.*<\(.*\)>.*/\1/p')"
+ce="$(git var GIT_COMMITTER_IDENT | sed -n 's/.*<\(.*\)>.*/\1/p')"
+[ "$ae" = "$KIWI_EMAIL" ] || guard_fail "作者のメールが $ae です。sh tools/guard/setup-local.sh を実行してからコミットしてください"
+[ "$ce" = "$KIWI_EMAIL" ] || guard_fail "コミッターのメールが $ce です。sh tools/guard/setup-local.sh を実行してからコミットしてください"
+deny="$(guard_deny_file)" || guard_fail "出してはいけない言葉の一覧がありません。tools/setup-pc.bat を実行してください"
+if printf '%s\n%s\n' "$(git var GIT_AUTHOR_IDENT)" "$(git var GIT_COMMITTER_IDENT)" | guard_has_denied "$deny"; then rm -f "$deny"; guard_fail "名義に出してはいけない言葉があります"; fi
+bad=""
+tmp="$deny.files"
+git diff --cached --name-only --diff-filter=ACMR > "$tmp"
+while IFS= read -r f; do
+  [ -n "$f" ] || continue
+  if printf '%s\n' "$f" | guard_has_denied "$deny"; then bad="$bad
+  $f（ファイル名）"; continue; fi
+  if git cat-file -p ":$f" 2>/dev/null | guard_has_denied "$deny"; then bad="$bad
+  $f"; fi
+done < "$tmp"
+rm -f "$deny" "$tmp"
+[ -z "$bad" ] || guard_fail "次のファイルに出してはいけない言葉があります:$bad"
+exit 0

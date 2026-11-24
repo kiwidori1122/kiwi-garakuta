@@ -126,3 +126,9 @@ apps/kiwi-video-sheet/*.json -text whitespace=cr-at-eol
 
 # Windows batch files must keep CRLF or cmd.exe misreads labels
 apps/stream-trophies/*.bat text eol=crlf
+
+# 名前漏れ防止チェック（Windowsでも改行がLFのままでないとフックが動かない）
+.githooks/* text eol=lf
+tools/guard/*.sh text eol=lf
+tools/setup-pc.bat text eol=crlf
+tools/setup-pc.ps1 -text
