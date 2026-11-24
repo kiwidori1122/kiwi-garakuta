@@ -2,6 +2,7 @@
 from __future__ import annotations
 import html
 import hashlib
+import json
 import re
 import struct
 from pathlib import Path
@@ -105,12 +106,18 @@ class Site:
         share_image = self.tools[tool_slug]['screenshot'] if tool_slug in self.tools else '/assets/screenshots/kiwi-image-workbench-public.png'
         share_alt = (self.tools[tool_slug]['name'] if tool_slug in self.tools else 'きうい画像・PNG工房') + 'の動作画面'
         share_width, share_height = image_size(share_image)
+        if path == '/streaming/':
+            share_image, share_alt = '/assets/screenshots/stream-trophy-admin.png', '配信トロフィーの管理画面'
+            share_width, share_height = image_size(share_image)
         if path.startswith('/stream-trophy/'):
             share_image, share_alt = '/assets/screenshots/stream-trophy-collection.png', '配信トロフィーのトロフィー図鑑'
             share_width, share_height = image_size(share_image)
         elif path == '/apex-rank-overlay/':
             share_image, share_alt = '/assets/screenshots/apex-rank-overlay.png', 'Apexランク表示オーバーレイ'
             share_width, share_height = image_size(share_image)
+        area = 'streaming' if path in ('/streaming/', '/stream-trophy/streamers/', '/apex-rank-overlay/') else 'viewers' if path.startswith('/stream-trophy/') else 'software'
+        nav_items = [('software', '/#software', 'Windowsソフト'), ('streaming', '/streaming/', '配信者向け'), ('viewers', '/stream-trophy/', '視聴者向け')]
+        navigation = ''.join(f'<a href="{url}"' + (' aria-current="page"' if path == url else ' aria-current="location"' if key == area and path != '/' else '') + f'>{label}</a>' for key, url, label in nav_items)
         return f'''<!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="{esc(description)}"><title>{esc(full_title)}</title>
@@ -121,10 +128,10 @@ class Site:
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{asset_url('design.css')}">{robots}{script}</head>
 <body><a class="skip-link" href="#main">本文へ移動</a>
 <header class="site-header"><div class="wrap header-inner"><a class="brand" href="/" aria-label="きういのガラクタ置き場 ホーム"><img src="/assets/favicon.svg" width="36" height="36" alt=""><span>きういの<span class="brand-break">ガラクタ置き場</span></span></a>
-<nav class="main-nav" aria-label="メインメニュー"><a href="/#software">ソフト一覧</a><a href="/guide/">はじめての方へ</a><a href="/#about">きういについて</a></nav></div></header>
+<nav class="main-nav" aria-label="メインメニュー">{navigation}<a href="/#about">きういについて</a></nav></div></header>
 <main id="main" class="wrap" tabindex="-1">{body}</main>
-<footer class="site-footer"><div class="wrap footer-grid"><div><a class="footer-brand" href="/">{esc(self.settings['site_name'])}</a><p>楽しく遊ぶための、小さな道具たち。<br>Windows向けの無料ソフトを公開しています。</p></div>
-<nav aria-label="フッターメニュー"><a href="/#software">ソフトを探す</a><a href="/guide/">ダウンロード・使い始め方</a><a href="https://github.com/kiwidori/kiwi-garakuta" rel="noopener noreferrer">GitHub・ソースコード ↗</a></nav>
+<footer class="site-footer"><div class="wrap footer-grid"><div><a class="footer-brand" href="/">{esc(self.settings['site_name'])}</a><p>楽しく遊ぶための、小さな道具たち。<br>Windowsソフトと、配信を楽しむツールを公開しています。</p></div>
+<nav aria-label="フッターメニュー"><a href="/#software">Windowsソフト</a><a href="/streaming/">配信者向けツール</a><a href="/stream-trophy/">視聴者向け・トロフィーの参加方法</a><a href="/guide/">ダウンロード・使い始め方</a><a href="https://github.com/kiwidori/kiwi-garakuta" rel="noopener noreferrer">GitHub・ソースコード ↗</a></nav>
 <div>{self.socials()}<p><a href="{esc(self.settings['contact_url'])}" rel="noopener noreferrer">お問い合わせはXのDMへ ↗</a></p></div></div>
 <div class="wrap footer-bottom"><span>各ソフトのライセンスと出典は詳細ページに記載しています。</span><a href="#main">ページの先頭へ ↑</a></div></footer></body></html>'''
 
@@ -155,8 +162,14 @@ class Site:
         else:
             picks = ''.join(f'<a class="quick-pick" href="/tools/{f["slug"]}/"><span class="pick-icon">{icon(self.meta[f["slug"]]["category"])}</span><span><strong>{esc(self.tools[f["slug"]]["name"].removeprefix("きうい"))}</strong><small>{esc(f["reason"])}</small></span>{icon("arrow")}</a>' for f in self.discovery['featured'])
             examples = ''.join(f'<a href="/?q={quote(term)}#software" data-search-example="{esc(term)}">{esc(term)}</a>' for term in ['写真', 'PDF', '文字起こし', 'ファイルを送る'])
-            hero = f'''<section class="home-hero"><div class="hero-copy"><div class="eyebrow"><span class="status-dot"></span>無料のWindowsソフト · {len(self.active)}本公開中</div><h1>あの「ちょっと面倒」を、<br><em>ちょっと便利に。</em></h1><p class="lead">写真を整える。PDFをまとめる。ファイルを渡す。<br>日々の作業と遊びに役立つ、小さな道具を集めました。</p>{self.search()}<div class="search-examples"><span>たとえば</span>{examples}</div></div>
-<aside class="quick-start" aria-label="まずはここから"><div class="section-kicker">まずはここから</div>{picks}<a class="quick-pick" href="/stream-trophy/"><span class="pick-icon">{icon('check')}</span><span><strong>配信トロフィー</strong><small>コメントや視聴時間で集める・参加方法はこちら</small></span>{icon('arrow')}</a><a class="quick-pick" href="/stream-trophy/streamers/"><span class="pick-icon">{icon('check')}</span><span><strong>配信者向けの無料ツール</strong><small>視聴者トロフィー・Apexランク表示を自分の配信に</small></span>{icon('arrow')}</a><a class="guide-link" href="/guide/">はじめて使う方へ：ZIPの開き方 {icon('arrow')}</a></aside></section>'''
+            hero = f'''<section class="site-intro" aria-labelledby="site-title"><p class="section-kicker">きういのガラクタ置き場</p><h1 id="site-title">遊びも、いつもの作業も。<br>ちょっと楽しく、ちょっと便利に。</h1><p class="lead">日常で役立つWindowsソフトから、配信の演出や参加のお楽しみまで。<br>使いたいものを、入口から選んでください。</p>
+<nav class="destination-grid" aria-label="目的別の入口">
+<a class="destination destination-daily" href="#software"><span class="destination-icon">{icon('files')}</span><h2>Windowsソフト</h2><p>写真・PDF・動画・ファイル整理。<br>日々の「ちょっと面倒」を手軽に。</p><span class="destination-link">{len(self.active)}本のソフトを探す</span></a>
+<a class="destination destination-streaming" href="/streaming/"><span class="destination-icon">{icon('media')}</span><h2>配信者向け</h2><p>配信に演出や楽しみを足す。<br>OBSの表示・視聴者トロフィー。</p><span class="destination-link">自分の配信で使うツールを見る</span></a>
+<a class="destination destination-viewers" href="/stream-trophy/"><span class="destination-icon">{icon('check')}</span><h2>視聴者向け</h2><p>コメントや一緒に見た時間を記録。<br>配信トロフィーを集めて楽しむ。</p><span class="destination-link">トロフィーの参加方法を見る</span></a>
+</nav></section>
+<section class="home-hero daily-start" aria-labelledby="daily-title"><div class="hero-copy"><div class="section-kicker">PCの作業に使うなら</div><h2 id="daily-title">Windowsの、小さな便利道具。</h2><p class="lead">写真を整える。PDFをまとめる。ファイルを渡す。<br>使い道やソフト名から探せます。</p>{self.search()}<div class="search-examples"><span>たとえば</span>{examples}</div></div>
+<aside class="quick-start" aria-label="日常の作業におすすめ"><div class="section-kicker">まずはこのあたりから</div>{picks}<a class="guide-link" href="/guide/">はじめて使う方へ：ZIPの開き方</a></aside></section>'''
         counts = {c: sum(self.meta[t['slug']]['category'] == c for t in self.active) for c in self.categories}
         all_current = 'aria-current="true"' if chosen == 'all' else ''
         filters = f'<a href="/#software" data-filter="all" data-label="すべて" {all_current}>すべて <span>{len(self.active)}</span></a>'
@@ -166,7 +179,7 @@ class Site:
         cards = ''.join(self.card(t, order=self.order[t['slug']], category=None if chosen == 'all' else chosen, filterable=True) for t in sorted(self.active, key=lambda t: self.order[t['slug']]))
         count = len(self.active) if not category else counts[chosen]
         listing = f'''<section class="catalog-section" id="software" aria-labelledby="catalog-title"><nav class="category-filters" aria-label="ソフトのカテゴリ">{filters}</nav>
-<div class="section-heading"><div><p class="section-kicker">道具を探す</p><h2 id="catalog-title">{esc(category['label']) if category else '公開中のソフト'}</h2><p id="result-count" role="status" aria-live="polite" aria-atomic="true">{len(self.active)}本中 {count}本を表示</p></div>
+<div class="section-heading"><div><p class="section-kicker">道具を探す</p><h2 id="catalog-title">{esc(category['label']) if category else 'Windowsソフト一覧'}</h2><p id="result-count" role="status" aria-live="polite" aria-atomic="true">{len(self.active)}本中 {count}本を表示</p></div>
 <div class="listing-options" data-js-only hidden><button id="reset-search" type="button" class="text-button" hidden>絞り込みを解除</button><label for="sort-tools">並び順</label><select id="sort-tools" aria-label="ソフトの並び順"><option value="recommended">おすすめ順</option><option value="name">名前順</option></select></div></div>
 <div class="tool-grid" data-catalog data-category="{chosen}">{cards}</div><div class="no-results" id="no-results" hidden>{icon('search')}<h3>条件に合うソフトが見つかりませんでした</h3><p>短い言葉で探すか、カテゴリを「すべて」に変えてみてください。</p></div><noscript><p class="notice">カテゴリを選ぶと、その用途の一覧ページへ移動します。キーワード検索にはJavaScriptが必要です。</p></noscript></section>'''
         journeys = ''
@@ -176,9 +189,8 @@ class Site:
                 links = ''.join(f'<li><a href="/tools/{slug}/">{esc(self.tools[slug]["name"])} {icon("arrow")}</a></li>' for slug in journey['slugs'])
                 entries += f'<article class="journey"><h3>{esc(journey["title"])}</h3><p>{esc(journey["description"])}</p><ol>{links}</ol></article>'
             journeys = f'<section class="workflow-section" aria-labelledby="workflow-title"><div class="section-heading"><div><p class="section-kicker">こんなときに</p><h2 id="workflow-title">やりたいことから、道具を選ぶ。</h2></div></div><div class="journey-grid">{entries}</div></section>'
-        trophy_link = '<p><a href="/stream-trophy/">配信トロフィー — 配信に参加して集める</a></p><p><a href="/stream-trophy/streamers/">配信者向け：視聴者トロフィーを自分の配信に</a> · <a href="/apex-rank-overlay/">Apexランク表示オーバーレイ</a></p>' if not category else ''
-        profile = f'''<section class="profile" id="about" aria-labelledby="profile-title"><div class="profile-heading"><img src="/assets/favicon.svg" alt="" width="64" height="64"><div><span class="section-kicker">このサイトの人</span><h2 id="profile-title">{esc(self.settings['profile_name'])}です。</h2></div></div><div><p>{esc(self.settings['profile_text'])}</p>{self.socials()}{trophy_link}</div></section>'''
-        description = f'{category["description"]}。Windows 11用の無料ソフトを用途から探せます。' if category else '写真・画像、PDF、動画、ファイル整理など、日々の作業に役立つWindows 11用の無料ソフト。用途やキーワードから探してダウンロードできます。'
+        profile = f'''<section class="profile" id="about" aria-labelledby="profile-title"><div class="profile-heading"><img src="/assets/favicon.svg" alt="" width="64" height="64"><div><span class="section-kicker">このサイトの人</span><h2 id="profile-title">{esc(self.settings['profile_name'])}です。</h2></div></div><div><p>{esc(self.settings['profile_text'])}</p>{self.socials()}</div></section>'''
+        description = f'{category["description"]}。Windows 11用の無料ソフトを用途から探せます。' if category else 'Windows向けの無料ソフト、配信者向けのOBSツール、視聴者向けの配信トロフィー。使い道に合わせて探せる、きういの道具置き場です。'
         return self.page(category['label'] if category else self.settings['site_name'], description, hero + listing + journeys + profile, f'/categories/{chosen}/' if category else '/', catalog=True)
 
     def shot(self, src, caption, lazy=True):
@@ -242,6 +254,17 @@ class Site:
         qr = self.support.get('paypal_qr')
         qr_html = f'<details><summary>QRコードを表示</summary><a href="{esc(paypal)}" rel="noopener noreferrer">{image(qr, "PayPal支援ページのQRコード", css="support-qr")}</a></details>' if qr else ''
         return f'<section class="support"><span class="section-kicker">気に入ってもらえたら</span><h2>開発を応援する</h2><p>ソフトは無料です。役に立ったときに、気軽に応援してもらえたらうれしいです。</p><a class="button button-secondary" href="{esc(paypal)}" rel="noopener noreferrer">PayPalで支援する ↗</a>{qr_html}</section>'
+
+    def streaming(self):
+        tools = json.loads((ROOT / 'site/streaming.json').read_text(encoding='utf8'))
+        cards = ''.join(f'<article class="streaming-card"><a class="streaming-card-link" href="{esc(t["url"])}">{image(t["image"], t["image_alt"], lazy=False)}<div class="streaming-card-body"><p class="section-kicker">{esc(t["purpose"])}</p><h2>{esc(t["name"])}</h2><p>{esc(t["summary"])}</p><p class="streaming-requires">{esc(t["requires"])}</p><span class="destination-link">機能・導入方法を見る</span></div></a></article>' for t in tools)
+        editing = ''.join(self.card(self.tools[slug], order=n) for n, slug in enumerate(('kiwi-silence', 'kiwi-transcribe', 'kiwi-video-sheet')))
+        body = f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span>配信者向け</span></nav>
+<section class="guide-hero streaming-hero"><p class="section-kicker">自分の配信で使う</p><h1>配信に、もうひとつ<br>楽しみを足そう。</h1><p class="lead">OBSにランクを表示したり、視聴者とトロフィーを集めたり。<br>配信する人のためのツールと、導入方法をまとめました。</p><nav class="page-nav" aria-label="配信者向けページの内容"><a href="#live-tools">配信で使う</a><a href="#recording-tools">録画・編集に使う</a><a href="#viewer-guide">視聴者に案内する</a></nav></section>
+<section id="live-tools" class="streaming-section" aria-labelledby="live-title"><div class="section-heading"><div><h2 id="live-title">配信の画面と、参加のお楽しみ</h2><p>設定ページや必要な準備は、それぞれの詳細ページから確認できます。</p></div></div><div class="streaming-grid">{cards}</div></section>
+<section id="recording-tools" class="streaming-section" aria-labelledby="recording-title"><div class="section-heading"><div><h2 id="recording-title">配信のあと、録画を使いやすく</h2><p>Windows 11 x64向けのソフトです。録画や音声の整理にも使えます。</p></div></div><div class="tool-grid">{editing}</div><p><a href="/#software">Windowsソフトをすべて見る</a></p></section>
+<aside id="viewer-guide" class="viewer-callout" aria-labelledby="viewer-title"><div><p class="section-kicker">配信を見に来た方へ</p><h2 id="viewer-title">トロフィーへの参加はこちら</h2><p>視聴者用の拡張と参加方法は、専用ページにまとめています。</p></div><a class="button" href="/stream-trophy/">視聴者向けの参加案内</a></aside>'''
+        return self.page('配信者向けツール', 'OBSで使うApexランク表示、YouTubeの視聴者トロフィー、録画や音声の整理に使える無料ツール。導入方法と必要な準備をご案内します。', body, '/streaming/')
 
     def stream_trophy(self):
         from stream_trophy import content

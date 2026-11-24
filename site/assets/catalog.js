@@ -46,7 +46,7 @@
     for (const card of list) root.append(card);
     const current = categories.find(link => link.dataset.filter === selected);
     const label = current?.dataset.label || 'すべて';
-    heading.textContent = selected === 'all' ? '公開中のソフト' : label;
+    heading.textContent = selected === 'all' ? 'Windowsソフト一覧' : label;
     count.textContent = `${cards.length}本中 ${found}本を表示`;
     empty.hidden = found !== 0;
     reset.hidden = !input.value && selected === 'all' && sort.value === 'recommended';

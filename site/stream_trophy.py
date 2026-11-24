@@ -56,7 +56,7 @@ def streamers(settings):
     contact = _esc(settings['contact_url'])
     admin = image('/assets/screenshots/stream-trophy-admin.png', '管理画面の「YouTube接続」。配信の状態と、概要欄に書く1行が表示されている', css='shot')
     collection = image('/assets/screenshots/stream-trophy-collection.png', '視聴者のトロフィー図鑑', css='shot')
-    return f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/stream-trophy/">配信トロフィー</a><span>/</span><span>配信者の方へ</span></nav>
+    return f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/streaming/">配信者向け</a><span>/</span><span>配信トロフィー</span></nav>
 <section class="guide-hero"><div class="eyebrow">配信者向け · 無料 · オープンソース</div><h1>あなたの配信にも、<br>視聴者トロフィーを。</h1><p class="lead">コメント数・視聴時間・参加回数・メンバーシップで、視聴者がトロフィーを集められます。<br>獲得するとOBSの配信画面に演出が出ます。サーバーは自分のCloudflare無料枠で動きます。</p><a class="button" href="{server}" download>配信者用セットを無料ダウンロード</a><p>Windows · Node.js 22.12以上 · Cloudflare無料アカウント · YouTube Data APIキー（無料）</p><p><a class="textlink" href="{source}" rel="noopener noreferrer">GitHubでソースを見る（MIT License） ↗</a></p></section>
 <nav class="page-nav" aria-label="ページの内容"><a href="#features">できること</a><a href="#setup">はじめ方</a><a href="#viewers">視聴者への案内</a><a href="#faq">よくある質問</a></nav>
 <div class="guide-content">
@@ -88,7 +88,7 @@ def apex_overlay(settings):
     source = _esc(config['source_url'])
     contact = _esc(settings['contact_url'])
     shot = image('/assets/screenshots/apex-rank-overlay.png', 'ランク表示オーバーレイ。プラチナIII、9,610 RP、今日の増減、ダイヤまであと2,140 RP', css='shot', lazy=False)
-    return f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span>Apexランク表示オーバーレイ</span></nav>
+    return f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/streaming/">配信者向け</a><span>/</span><span>Apexランク表示オーバーレイ</span></nav>
 <section class="guide-hero"><div class="eyebrow">配信者向け · 無料 · OBS</div><h1>今のランクと、<br>目標までの残りを頭の上に。</h1><p class="lead">Apex Legendsのランク・RP・今日の増減・目標ティアまでの残りRPを表示する、OBS用のブラウザソースです。<br>URLを作ってOBSに貼るだけ。インストールは要りません。</p><a class="button" href="/assets/apex-rank-overlay/setup.html">設定ページを開いてURLを作る</a><p>OBS Studio · 無料のAPIキー（Apex Legends Status）· PC / PS / Xbox / Switch</p>{shot}</section>
 <nav class="page-nav" aria-label="ページの内容"><a href="#features">できること</a><a href="#setup">使い方</a><a href="#notes">注意点</a></nav>
 <div class="guide-content">

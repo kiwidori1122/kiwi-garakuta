@@ -1,0 +1,20 @@
+[
+  {
+    "name": "配信トロフィー",
+    "url": "/stream-trophy/streamers/",
+    "purpose": "視聴者と楽しむ",
+    "summary": "コメントや視聴時間でトロフィーを獲得。自分のYouTube配信に導入し、OBSで獲得の演出を表示できます。",
+    "requires": "準備：Cloudflare・YouTube Data APIキー・Node.js",
+    "image": "/assets/screenshots/stream-trophy-admin.png",
+    "image_alt": "配信トロフィーの管理画面"
+  },
+  {
+    "name": "Apexランク表示オーバーレイ",
+    "url": "/apex-rank-overlay/",
+    "purpose": "OBSに表示する",
+    "summary": "現在のランク・RP・今日の増減・目標までの残りを配信画面へ。設定ページで作ったURLをOBSに追加します。",
+    "requires": "準備：OBS・Apex Legends StatusのAPIキー",
+    "image": "/assets/screenshots/apex-rank-overlay.png",
+    "image_alt": "Apexランク表示オーバーレイの表示例"
+  }
+]
