@@ -131,7 +131,7 @@ class Site:
 <nav class="main-nav" aria-label="メインメニュー">{navigation}<a href="/#about">きういについて</a></nav></div></header>
 <main id="main" class="wrap" tabindex="-1">{body}</main>
 <footer class="site-footer"><div class="wrap footer-grid"><div><a class="footer-brand" href="/">{esc(self.settings['site_name'])}</a><p>楽しく遊ぶための、小さな道具たち。<br>Windowsソフトと、配信を楽しむツールを公開しています。</p></div>
-<nav aria-label="フッターメニュー"><a href="/#software">Windowsソフト</a><a href="/streaming/">配信者向けツール</a><a href="/stream-trophy/">視聴者向け・トロフィーの参加方法</a><a href="/guide/">ダウンロード・使い始め方</a><a href="https://github.com/kiwidori/kiwi-garakuta" rel="noopener noreferrer">GitHub・ソースコード ↗</a></nav>
+<nav aria-label="フッターメニュー"><a href="/#software">Windowsソフト</a><a href="/streaming/">配信者向けツール</a><a href="/stream-trophy/">視聴者向け・トロフィーの参加方法</a><a href="/guide/">ダウンロード・使い始め方</a><a href="https://github.com/kiwidori1122/kiwi-garakuta" rel="noopener noreferrer">GitHub・ソースコード ↗</a></nav>
 <div>{self.socials()}<p><a href="{esc(self.settings['contact_url'])}" rel="noopener noreferrer">お問い合わせはXのDMへ ↗</a></p></div></div>
 <div class="wrap footer-bottom"><span>各ソフトのライセンスと出典は詳細ページに記載しています。</span><a href="#main">ページの先頭へ ↑</a></div></footer></body></html>'''
 
@@ -222,7 +222,7 @@ class Site:
         shots += ''.join(self.shot(s['src'], s['caption']) for s in tool.get('workflow_screenshots', []))
         advanced = ''
         if tool.get('advanced_screenshot'):
-            advanced = f'<section class="content-section" id="advanced"><h2>詳細機能</h2><p>メニュー「詳細機能」→「開く」で、元ツールの追加オプションを選択できます。値・ファイル・フォルダー・標準入力を指定して実行し、標準出力を保存できます。完全なCLI互換ではありません。</p><p><a href="https://github.com/kiwidori/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md" rel="noopener noreferrer">対応する機能と制限の一覧 ↗</a></p>{self.shot(tool["advanced_screenshot"], tool["name"] + 'の詳細機能画面')}</section>'
+            advanced = f'<section class="content-section" id="advanced"><h2>詳細機能</h2><p>メニュー「詳細機能」→「開く」で、元ツールの追加オプションを選択できます。値・ファイル・フォルダー・標準入力を指定して実行し、標準出力を保存できます。完全なCLI互換ではありません。</p><p><a href="https://github.com/kiwidori1122/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md" rel="noopener noreferrer">対応する機能と制限の一覧 ↗</a></p>{self.shot(tool["advanced_screenshot"], tool["name"] + 'の詳細機能画面')}</section>'
         origins = tool.get('upstreams') or [{'name': '上流プロジェクト', 'url': tool['upstream_url'], 'license': tool['upstream_license']}]
         origins_html = ''.join(f'<li><a href="{esc(o["url"])}" rel="noopener noreferrer">{esc(o["name"])} ↗</a><p>ライセンス：{esc(o["license"])}</p></li>' for o in origins)
         models = ''.join(f'<li><a href="{esc(m["url"])}" rel="noopener noreferrer">{esc(m["name"])} ↗</a><p>モデルのライセンス：{esc(m["license"])}</p></li>' for m in tool.get('model_sources', []))

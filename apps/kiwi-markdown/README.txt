@@ -28,7 +28,7 @@ ANSI装飾はGUIで表現できる範囲で表示します。HTMLやJavaScript�
 全文書・全スタイル・全オプションの組合せを検証した製品ではありません。実行ファイルは未署名です。
 
 ライセンスとソース
-GUI: MIT https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-markdown
+GUI: MIT https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-markdown
 Glow: MIT https://github.com/charmbracelet/glow/tree/v3.0.0
 UPSTREAM-LICENSE.txt / THIRD-PARTY-NOTICES.txt / Runtime-LICENSES.txtを参照してください。
 変更していない依存物の版、ライセンス全文、ソースの取得先も同梱しています。

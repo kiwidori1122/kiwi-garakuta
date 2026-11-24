@@ -21,7 +21,7 @@ CSVはUTF-8 BOM付きです。CSVの保存先だけに書き込みます。
 上流: https://github.com/muesli/duf （v0.9.1、MIT）
 duf-LICENSE、duf-README.md、THIRD-PARTY-NOTICES.txt、Runtime-LICENSES.txtを同梱しています。
 GUIのライセンス: LICENSE （MIT）
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-space
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-space
 問い合わせ: https://x.com/kiwi_dori
 
 
@@ -34,6 +34,6 @@ GUIのライセンス: LICENSE （MIT）
 結果はテキスト表示です。標準出力を保存すると元のバイト列を保持します。
 シェルのパイプやリダイレクト、対話式の端末機能は使いません。
 出力合計16 MiB、標準入力2 MiB、1回300秒、引数256個までです。
-詳細機能の制限: https://github.com/kiwidori/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md
+詳細機能の制限: https://github.com/kiwidori1122/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md
 書き込み先・入力ファイル・通信先を確認してから実行してください。
 通常画面の機能・表示上限は従来どおりです。

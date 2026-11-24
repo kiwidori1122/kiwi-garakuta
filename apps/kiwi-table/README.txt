@@ -6,7 +6,7 @@ ZIPをすべて展開し、KiwiTable.exeを起動してください。
 取得サイズ：約18.8 MiB。取得ファイルのSHA-256を照合します。
 
 上流: https://github.com/duckdb/duckdb
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-table
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-table
 詳細・制限: https://kiwi-garakuta.pages.dev/tools/kiwi-table/
 問い合わせ: https://x.com/kiwi_dori のDM
 

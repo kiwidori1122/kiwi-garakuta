@@ -3,7 +3,7 @@
 Windows 11 x64 / ZIPを展開して KiwiYamlfmt.exe を起動してください。
 元ツール: yamlfmt v0.21.0 / https://github.com/google/yamlfmt (Apache-2.0)
 このソフトは非公式のGUIです。
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-yamlfmt
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-yamlfmt
 サイト: https://kiwi-garakuta.pages.dev/tools/kiwi-yamlfmt/
 問い合わせ: https://x.com/kiwi_dori
 

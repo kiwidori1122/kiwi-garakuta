@@ -10,7 +10,7 @@ The exact linked module versions are recorded in restic-BUILD-INFO.txt.
 Their copyright, license, NOTICE and PATENTS texts are in restic-DEPENDENCY-LICENSES.txt.
 This includes github.com/hashicorp/golang-lru/v2 v2.0.7, Mozilla Public License 2.0.
 Its unmodified corresponding source is available as golang-lru-v2.0.7-source.zip:
-https://github.com/kiwidori/kiwi-garakuta/releases/download/kiwi-backup-v0.1.0/golang-lru-v2.0.7-source.zip
+https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-backup-v0.1.0/golang-lru-v2.0.7-source.zip
 Original identical module source: https://proxy.golang.org/github.com/hashicorp/golang-lru/v2/@v/v2.0.7.zip
 The archive contains the covered source files and their MPL-2.0 license.
 No changes have been made to the upstream binary or these covered files.

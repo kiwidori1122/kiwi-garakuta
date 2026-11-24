@@ -1,6 +1,6 @@
 # セキュリティ上の問題の報告
 
-脆弱性や秘密情報の漏えいを見つけた場合は、[GitHubの非公開報告フォーム](https://github.com/kiwidori/kiwi-garakuta/security/advisories/new)からお知らせください。公開Issueに秘密情報や悪用方法を書かないでください。
+脆弱性や秘密情報の漏えいを見つけた場合は、[GitHubの非公開報告フォーム](https://github.com/kiwidori1122/kiwi-garakuta/security/advisories/new)からお知らせください。公開Issueに秘密情報や悪用方法を書かないでください。
 
 ソフト名とバージョン、問題が起きる操作、影響を受けるファイルや機能を添えてください。画像やログから個人情報を取り除いてください。
 

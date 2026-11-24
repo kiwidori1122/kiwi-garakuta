@@ -44,5 +44,5 @@ Windowsコマンド行30,000文字未満、1回300秒、標準出力と標準エ
 
 GUI MIT / Numbat MIT OR Apache-2.0。上流・依存物・Python/Tcl/Tkのライセンスを同梱します。
 上流: https://github.com/sharkdp/numbat
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-calc
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-calc
 問い合わせ: https://x.com/kiwi_dori

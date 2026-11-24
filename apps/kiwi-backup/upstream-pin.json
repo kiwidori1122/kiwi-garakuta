@@ -16,7 +16,7 @@
     "upstream-help.txt": "712378643b1e26c35d9d019d202fd00c9e87d610dbe0104c269b61ba15884369"
   },
   "upstream": "https://github.com/restic/restic",
-  "source_archive": "https://github.com/kiwidori/kiwi-garakuta/releases/download/kiwi-backup-v0.1.0/golang-lru-v2.0.7-source.zip",
+  "source_archive": "https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-backup-v0.1.0/golang-lru-v2.0.7-source.zip",
   "source_sha256": "2eb92ff13970bccd460efae14255bfc03bb51474da0137e477a60f95561acc30",
   "source_size": 29453
 }

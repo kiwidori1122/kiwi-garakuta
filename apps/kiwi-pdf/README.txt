@@ -26,6 +26,6 @@ GPUは不要です。Microsoftのランタイムは同梱していません。
 qpdfの非公式GUIです。元ツールの開発者による公式製品ではありません。
 qpdf 12.4.2 / Apache License 2.0
 https://github.com/qpdf/qpdf
-本体のソースとライセンス: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-pdf
+本体のソースとライセンス: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-pdf
 公開サイト: https://kiwi-garakuta.pages.dev/tools/kiwi-pdf/
 問い合わせ: https://x.com/kiwi_dori

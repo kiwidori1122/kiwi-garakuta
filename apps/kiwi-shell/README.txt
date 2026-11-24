@@ -2,7 +2,7 @@
 
 Windows 11 x64 / ZIPを展開して KiwiShell.exe を起動してください。
 元ソフト: https://github.com/mvdan/sh (v3.14.1, BSD-3-Clause)
-非公式のGUIです。ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-shell
+非公式のGUIです。ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-shell
 サイト: https://kiwi-garakuta.pages.dev/tools/kiwi-shell/
 問い合わせ: https://x.com/kiwi_dori
 

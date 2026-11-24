@@ -36,9 +36,9 @@ HASHはファイル内容のハッシュを比較します。NAME・SIZE・SIZE_
 
 非公式のCzkawka 12.0.2ラッパーです。
 上流：https://github.com/qarmin/czkawka
-ソース：https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-tidy
+ソース：https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-tidy
 Czkawka・依存ライブラリのソース一式：
-https://github.com/kiwidori/kiwi-garakuta/releases/download/kiwi-tidy-v0.1.0/Czkawka-12.0.2-corresponding-source.tar.gz
+https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-tidy-v0.1.0/Czkawka-12.0.2-corresponding-source.tar.gz
 各ライセンスと第三者への通知は同梱のTHIRD-PARTY-NOTICES.txtをご覧ください。
 不具合・質問：https://x.com/kiwi_dori
 

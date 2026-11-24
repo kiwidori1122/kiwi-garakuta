@@ -10,6 +10,6 @@ Web保存はログイン不要のHTTP(S)ページだけに対応します。Java
 入力文書32MiB、Web保存32MiB、処理は各3分まで。
 
 詳細・制限: https://kiwi-garakuta.pages.dev/tools/kiwi-document-workbench/
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-document-workbench
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-document-workbench
 問い合わせ: https://x.com/kiwi_dori のDM
 GUIはMIT。上流・ランタイムのライセンスは同梱文書を参照してください。

@@ -47,5 +47,5 @@ JSON等の資料に診断文を混ぜません。画面では両方を表示し�
 全オプションの組合せ、XMLの全入力妥当性、生成物の品質を保証しません。
 GUI MIT、上流MIT。依存物とPython/Tcl/Tk/Microsoftランタイムの通知を同梱します。
 上流: https://github.com/mufeedvh/code2prompt
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-prompt
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-prompt
 問い合わせ: https://x.com/kiwi_dori

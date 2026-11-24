@@ -12,7 +12,7 @@ compressor. RAR creation is not supported. Rust runtime: Rust-RUNTIME-LICENSES.t
 
 Complete corresponding ouch source, build workflows and all locked dependency
 sources, including bzip3 C and UnRAR C++ source, are available at no charge:
-https://github.com/kiwidori/kiwi-garakuta/releases/download/kiwi-archive-v0.1.0/KiwiArchive-0.1.0-dependency-sources.zip
+https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-archive-v0.1.0/KiwiArchive-0.1.0-dependency-sources.zip
 See SOURCE-REBUILD.txt for build and replacement instructions. The native/ouch.exe
 file can be replaced with a modified build; the GUI imposes no runtime digest lock.
 

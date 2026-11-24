@@ -6,7 +6,7 @@ ZIPをすべて展開し、KiwiDocuments.exeを起動してください。
 取得サイズ：約41.0 MiB。取得ファイルのSHA-256を照合します。
 
 上流: https://github.com/jgm/pandoc
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-documents
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-documents
 詳細・制限: https://kiwi-garakuta.pages.dev/tools/kiwi-documents/
 問い合わせ: https://x.com/kiwi_dori のDM
 

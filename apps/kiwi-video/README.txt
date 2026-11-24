@@ -42,6 +42,6 @@ H.264が互換性重視のおすすめです。H.265・VP9は再生側の対応�
 リンク・ジャンクションは扱いません。途中で停止・失敗した場合も保存済みのファイルは残ります。
 
 公開サイト：https://kiwi-garakuta.pages.dev/
-ソース：https://github.com/kiwidori/kiwi-garakuta
+ソース：https://github.com/kiwidori1122/kiwi-garakuta
 お問い合わせ：https://x.com/kiwi_dori
 ライセンスと依存物の案内は同梱文書を参照してください。

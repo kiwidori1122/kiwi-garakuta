@@ -15,7 +15,7 @@ BLAKE3専用です。SHA-256など他の方式の値とは比較できません�
 
 元ツールb3sum/BLAKE3: https://github.com/BLAKE3-team/BLAKE3
 このソフトはBLAKE3開発者の公式製品ではありません。上流のライセンス文書はb3sum-LICENSE_A2、b3sum-LICENSE_A2LLVM、b3sum-LICENSE_CC0、GUIのMITライセンスはLICENSEを参照してください。
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-hash
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-hash
 問い合わせ: https://x.com/kiwi_dori
 現時点の実行ファイルにはコード署名がありません。
 
@@ -29,6 +29,6 @@ BLAKE3専用です。SHA-256など他の方式の値とは比較できません�
 結果はテキスト表示です。標準出力を保存すると元のバイト列を保持します。
 シェルのパイプやリダイレクト、対話式の端末機能は使いません。
 出力合計16 MiB、標準入力2 MiB、1回300秒、引数256個までです。
-詳細機能の制限: https://github.com/kiwidori/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md
+詳細機能の制限: https://github.com/kiwidori1122/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md
 書き込み先・入力ファイル・通信先を確認してから実行してください。
 通常画面の機能・表示上限は従来どおりです。

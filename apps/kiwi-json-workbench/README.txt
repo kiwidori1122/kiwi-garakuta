@@ -24,7 +24,7 @@ gojqの整数演算とfxの読み込みは大きな整数を扱えますが、�
 各上流ライセンス・依存物・実行環境の通知を同梱しています。
 
 使い方: https://kiwi-garakuta.pages.dev/tools/kiwi-json-workbench/
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-json-workbench
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-json-workbench
 問い合わせ: https://x.com/kiwi_dori
 
 jqとgojqは用途から選べます。jqはJSON/raw/stream入力、gojqはYAMLにも対応します。jqの字下げ幅は0〜7です。jqでは式から環境変数・外部ファイル・モジュールを読めます。入力先への自動書き込みは行いません。

@@ -29,5 +29,5 @@ OCRエンジンと認識モデルは同梱。読み上げエンジンと音声�
 モデルの利用条件・出力の合成音声表示の条件は統合版でも適用されます。
 署名なしの実行ファイルです。原文ライセンスと依存物通知を同梱しています。
 
-ソース：https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-reading-workbench
+ソース：https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-reading-workbench
 問い合わせ：https://x.com/kiwi_dori

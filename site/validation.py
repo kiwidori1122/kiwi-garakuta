@@ -21,7 +21,7 @@ def require_tool(item: dict) -> None:
     if item.get("dependency_source_url"):
         parsed = urlparse(item["dependency_source_url"])
         if (parsed.scheme != "https" or parsed.netloc != "github.com" or
-                not parsed.path.startswith("/kiwidori/kiwi-garakuta/releases/download/") or
+                not parsed.path.startswith("/kiwidori1122/kiwi-garakuta/releases/download/") or
                 not parsed.path.endswith(".zip") or parsed.query or parsed.fragment):
             raise ValueError(f"Invalid dependency source download: {item['slug']}")
     if not item["screenshot"].startswith("/assets/screenshots/"):

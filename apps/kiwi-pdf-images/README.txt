@@ -6,7 +6,7 @@ ZIPをすべて展開し、KiwiPDFImages.exeを起動してください。
 取得サイズ：約89.9 MiB。取得ファイルのSHA-256を照合します。
 
 上流: https://github.com/ArtifexSoftware/mupdf
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-pdf-images
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-pdf-images
 詳細・制限: https://kiwi-garakuta.pages.dev/tools/kiwi-pdf-images/
 問い合わせ: https://x.com/kiwi_dori のDM
 

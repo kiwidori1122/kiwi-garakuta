@@ -17,5 +17,5 @@ sdの非公式GUIです。テキストまたは複数ファイルの文字列・
 
 GUI MIT。sd MITおよび依存物・Python/Tcl/Tkの通知を同梱します。
 上流: https://github.com/chmln/sd
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-replace
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-replace
 問い合わせ: https://x.com/kiwi_dori

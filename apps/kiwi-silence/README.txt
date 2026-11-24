@@ -32,6 +32,6 @@ FFmpeg等の依存物にはそれぞれのライセンスが適用されます�
 上流：https://github.com/WyattBlue/auto-editor
 固定版ソース：https://github.com/WyattBlue/auto-editor/tree/31.9.0
 ビルド情報：https://github.com/WyattBlue/auto-editor/blob/31.9.0/ae.nimble
-GUIソース：https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-silence
+GUIソース：https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-silence
 サイト：https://kiwi-garakuta.pages.dev/tools/kiwi-silence/
 問い合わせ：https://x.com/kiwi_dori

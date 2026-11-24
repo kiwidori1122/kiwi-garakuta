@@ -27,7 +27,7 @@ https://github.com/xinntao/Real-ESRGAN
 同梱ライセンス文書をご確認ください。
 
 公開サイト https://kiwi-garakuta.pages.dev/tools/kiwi-image-enlarge/
-ソース https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-image-enlarge
+ソース https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-image-enlarge
 問い合わせ https://x.com/kiwi_dori
 
 画像の読み取り・検証とプレビューにはPillow 13.0.0を使用しています。

@@ -2,7 +2,7 @@
 
 Windows 11 x64 / ZIPを展開して KiwiCount.exe を起動してください。
 元ソフト: https://github.com/boyter/scc (v4.1.0, MIT)
-非公式のGUIです。ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-count
+非公式のGUIです。ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-count
 サイト: https://kiwi-garakuta.pages.dev/tools/kiwi-count/
 問い合わせ: https://x.com/kiwi_dori
 

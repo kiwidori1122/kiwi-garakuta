@@ -181,7 +181,7 @@ class SiteCheck:
             self.error(doc.route, f"unsafe {kind} scheme: {scheme}")
             return
         parsed = urlsplit(value)
-        own_repository = "/kiwidori/kiwi-garakuta/"
+        own_repository = "/kiwidori1122/kiwi-garakuta/"
         if parsed.netloc.lower() == "github.com" and parsed.path.lower().startswith(own_repository):
             parts = unquote(parsed.path).lower().split("/")
             if any(part in PRIVATE_PARTS or part in PRIVATE_FILES for part in parts[3:]):

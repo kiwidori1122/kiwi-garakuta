@@ -16,5 +16,5 @@ HEXYL_COLOR_NULL/OFFSET/ASCII_PRINTABLE/ASCII_WHITESPACE/ASCII_OTHER/NONASCII環
 C includeとバイト順の明示指定は同時使用できません。C includeではバイト順欄を空欄にします。
 GUI MIT。hexyl MIT OR Apache-2.0、依存物・Python/Tcl/Tkライセンスを同梱しています。
 上流: https://github.com/sharkdp/hexyl
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-bytes
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-bytes
 問い合わせ: https://x.com/kiwi_dori

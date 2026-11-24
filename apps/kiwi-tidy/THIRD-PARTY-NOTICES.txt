@@ -4,7 +4,7 @@ MIT, Copyright (c) 2020-2026 Rafal Mikrut. Original notice: Czkawka-LICENSE.txt.
 Dependency license notices: Czkawka-DEPENDENCY-LICENSES.txt.
 The rawler library is LGPL-2.1 and the symphonia libraries are MPL-2.0.
 Corresponding source (including complete workspace, all locked vendored crates and rebuilding instructions):
-https://github.com/kiwidori/kiwi-garakuta/releases/download/kiwi-tidy-v0.1.0/Czkawka-12.0.2-corresponding-source.tar.gz
+https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-tidy-v0.1.0/Czkawka-12.0.2-corresponding-source.tar.gz
 The binary/library source may be modified and rebuilt/relinked as permitted by its licenses.
 No additional restriction on reverse engineering for debugging such modifications is imposed.
 

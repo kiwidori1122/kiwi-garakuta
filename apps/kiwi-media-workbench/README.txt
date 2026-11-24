@@ -64,9 +64,9 @@ https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist
 GUI：MIT。gifski：AGPL-3.0-or-later、依存imagequant：GPL-3.0-or-later。
 gif-notices/とvideo-notices/に原文・依存物・ソース案内を収録しています。
 gifskiの対応ソース一式は旧GIF工房と同じ未変更のエンジンに対応します。
-https://github.com/kiwidori/kiwi-garakuta/releases/download/kiwi-gif-v0.1.0/KiwiGIF-0.1.0-dependency-sources.zip
+https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-gif-v0.1.0/KiwiGIF-0.1.0-dependency-sources.zip
 FFmpegのWindows版は別途取得します。配布元のライセンスとソース案内はvideo-notices/を参照。
-本GUIのソース：https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-media-workbench
+本GUIのソース：https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-media-workbench
 公開サイト：https://kiwi-garakuta.pages.dev/
 お問い合わせ：https://x.com/kiwi_dori
 

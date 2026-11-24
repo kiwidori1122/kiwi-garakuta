@@ -34,7 +34,7 @@ PNGは8bit RGBA出力です。16bit/HDR/RAW現像、PDF・SVG、動画、文字�
 プロファイルも削除されるため、色味が変わる場合があります。
 途中で停止・失敗したときも、保存済みの画像は残ります。
 
-配布・ソース：https://github.com/kiwidori/kiwi-garakuta
+配布・ソース：https://github.com/kiwidori1122/kiwi-garakuta
 サイト：https://kiwi-garakuta.pages.dev/
 お問い合わせ：https://x.com/kiwi_dori
 ライセンスと依存物の案内は同梱文書を参照してください。

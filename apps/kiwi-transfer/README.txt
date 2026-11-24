@@ -48,7 +48,7 @@ PC同士の転送とブラウザー共有は同時に使えません。
 croc 11.5.4、qrcp 0.11.7の非公式GUIです。各開発者による公式製品ではありません。
 https://github.com/schollz/croc
 https://github.com/claudiodangelis/qrcp
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-transfer
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-transfer
 使い方・配布: https://kiwi-garakuta.pages.dev/tools/kiwi-transfer/
 問い合わせ: https://x.com/kiwi_dori のDM
 ライセンス・著作権表示は同梱文書をご覧ください。コード署名はありません。

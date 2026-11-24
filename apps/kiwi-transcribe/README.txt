@@ -36,7 +36,7 @@ M4A・MP4・動画・マイク録音、GPU/OpenVINO、Unix用カラオケスク�
 whisper.cpp 1.9.5（公式ビルドb5454）の非公式GUIです。
 元ツール: https://github.com/ggml-org/whisper.cpp
 モデル: https://huggingface.co/ggerganov/whisper.cpp
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-transcribe
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-transcribe
 配布・使い方: https://kiwi-garakuta.pages.dev/tools/kiwi-transcribe/
 問い合わせ: https://x.com/kiwi_dori のDM
 ライセンス・著作権表示は同梱文書をご覧ください。

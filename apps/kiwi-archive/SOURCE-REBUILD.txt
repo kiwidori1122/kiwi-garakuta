@@ -20,4 +20,4 @@ You may replace the application's native/ouch.exe with the resulting executable.
 The GUI does not require the original executable hash at runtime. Restart the GUI after
 replacement. Keep a copy of the original if you need to restore it. Modified binaries
 may behave differently. GUI source and packaging script are available in apps/kiwi-archive
-at https://github.com/kiwidori/kiwi-garakuta under the repository MIT license.
+at https://github.com/kiwidori1122/kiwi-garakuta under the repository MIT license.

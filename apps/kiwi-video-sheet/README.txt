@@ -33,5 +33,5 @@ Windows配布元：https://github.com/GyanD/codexffmpeg
 配布物に含むPython・Tk・Pillow等の通知も同梱しています。
 
 使い方：https://kiwi-garakuta.pages.dev/tools/kiwi-video-sheet/
-ソース：https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-video-sheet
+ソース：https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-video-sheet
 問い合わせ：https://x.com/kiwi_dori

@@ -33,5 +33,5 @@ GUIコード：MIT（LICENSE）。Python/Tcl/Tk/PyInstallerの通知はRuntime-L
 
 配布・問い合わせ
 https://kiwi-garakuta.pages.dev/tools/kiwi-photo-info/
-https://github.com/kiwidori/kiwi-garakuta
+https://github.com/kiwidori1122/kiwi-garakuta
 https://x.com/kiwi_dori

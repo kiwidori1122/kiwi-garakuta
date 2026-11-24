@@ -45,6 +45,6 @@ Yu Gothic・Meiryo・MS Gothic・Arialなどを選べます。追加一覧はWin
 
 GUI：MIT。別取得のTypst：Apache-2.0。原文とNOTICEは同梱しています。
 Typst公式：https://github.com/typst/typst
-本ソフトのソース：https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-labels
+本ソフトのソース：https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-labels
 公開サイト：https://kiwi-garakuta.pages.dev/
 お問い合わせ：https://x.com/kiwi_dori

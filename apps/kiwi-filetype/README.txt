@@ -43,6 +43,6 @@ Google Magika CLI 1.1.0の非公式GUIです。判定は推定で、必ず正し
 Magika: https://github.com/google/magika （Apache-2.0）
 Magika本体とモデルは同梱せず、公式配布から別に取得します。
 同梱の原文ライセンスとTHIRD-PARTY-NOTICES.txtを参照してください。
-ソース：https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-filetype
+ソース：https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-filetype
 サイト：https://kiwi-garakuta.pages.dev/
 問い合わせ：https://x.com/kiwi_dori

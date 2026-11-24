@@ -11,7 +11,7 @@ Windows環境によっては、batの実行にMicrosoft Visual C++ Redistributab
 
 元ツール bat: https://github.com/sharkdp/bat
 このソフトはbat開発者の公式製品ではありません。batのライセンスは同梱のbat-LICENSE-MITとbat-LICENSE-APACHEを参照してください。GUIのライセンスはLICENSEを参照してください。
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-code
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-code
 問い合わせ: https://x.com/kiwi_dori
 
 この実行ファイルにはコード署名がありません。
@@ -26,6 +26,6 @@ Windows環境によっては、batの実行にMicrosoft Visual C++ Redistributab
 結果はテキスト表示です。標準出力を保存すると元のバイト列を保持します。
 シェルのパイプやリダイレクト、対話式の端末機能は使いません。
 出力合計16 MiB、標準入力2 MiB、1回300秒、引数256個までです。
-詳細機能の制限: https://github.com/kiwidori/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md
+詳細機能の制限: https://github.com/kiwidori1122/kiwi-garakuta/blob/main/docs/upstream-feature-audit.md
 書き込み先・入力ファイル・通信先を確認してから実行してください。
 通常画面の機能・表示上限は従来どおりです。

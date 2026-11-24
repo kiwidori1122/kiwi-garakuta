@@ -2,7 +2,7 @@
 
 Windows 11 x64 / ZIPを展開して KiwiMinify.exe を起動してください。
 元ソフト: https://github.com/tdewolff/minify (v2.24.17, MIT)
-非公式のGUIです。ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-minify
+非公式のGUIです。ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-minify
 サイト: https://kiwi-garakuta.pages.dev/tools/kiwi-minify/
 問い合わせ: https://x.com/kiwi_dori
 

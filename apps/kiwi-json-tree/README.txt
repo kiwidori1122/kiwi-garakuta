@@ -19,7 +19,7 @@ JSON・YAML・TOMLをツリーで読み、選んだ値やパスをコピーで�
 JavaScriptはfx内蔵エンジンで実行し、Node.jsやブラウザーのAPIは使えません。
 
 紹介・使い方: https://kiwi-garakuta.pages.dev/tools/kiwi-json-tree/
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-json-tree
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-json-tree
 元ツール: fx 39.2.0 / https://github.com/antonmedv/fx
 非公式GUIです。ライセンス文書と依存物通知をZIPへ同梱しています。
 問い合わせ: https://x.com/kiwi_dori

@@ -10,7 +10,7 @@ PDF編集は各200MiB、画像化は32MiB・指定100ページまで。
 
 Microsoft Visual C++ v14 (x64)が必要です。
 詳細・制限: https://kiwi-garakuta.pages.dev/tools/kiwi-pdf-workbench/
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-pdf-workbench
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-pdf-workbench
 問い合わせ: https://x.com/kiwi_dori のDM
 GUIはMIT。上流・依存物・ランタイムのライセンスは同梱文書をご覧ください。
 

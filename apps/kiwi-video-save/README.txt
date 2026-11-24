@@ -6,7 +6,7 @@ ZIPをすべて展開し、KiwiVideoSave.exeを起動してください。
 取得サイズ：約22.5 MiB。取得ファイルのSHA-256を照合します。
 
 上流: https://github.com/yt-dlp/yt-dlp
-ソース: https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-video-save
+ソース: https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-video-save
 詳細・制限: https://kiwi-garakuta.pages.dev/tools/kiwi-video-save/
 問い合わせ: https://x.com/kiwi_dori のDM
 

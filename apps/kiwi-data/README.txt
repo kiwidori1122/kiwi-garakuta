@@ -26,7 +26,7 @@ dasel v3.11.2の式に日本語文字列を直接書くと解析に失敗する�
 daselのreadFile()やファイル変数は、指定したローカルファイルを読み込みます。
 
 ライセンスとソース
-GUI: MIT https://github.com/kiwidori/kiwi-garakuta/tree/main/apps/kiwi-data
+GUI: MIT https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/kiwi-data
 dasel: MIT https://github.com/TomWright/dasel/tree/v3.11.2
 UPSTREAM-LICENSE.txt / THIRD-PARTY-NOTICES.txt / Runtime-LICENSES.txtを参照してください。
 依存物の版・ライセンス全文・変更していないソースの取得先も同梱しています。
