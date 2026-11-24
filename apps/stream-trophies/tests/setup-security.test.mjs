@@ -26,3 +26,12 @@ test('Wrangler runs the installed CLI through Node without npx.cmd', async () =>
   const text = await wrangler(['--version'], { capture: true, env: { WRANGLER_SEND_METRICS: 'false' } });
   assert.match(text, /4\.164\.0/);
 });
+
+
+test('environment values cannot choose an arbitrary executable path', () => {
+ const old=process.env.SystemRoot;
+ try {
+  process.env.SystemRoot='C:\\temp\\attacker';assert.throws(()=>browserCommand('https://example.com','win32'));
+  process.env.SystemRoot='D:\\Windows';assert.match(browserCommand('https://example.com','win32')[0],/^D:[\\/]Windows[\\/]System32[\\/]rundll32\.exe$/);
+ } finally { if(old===undefined)delete process.env.SystemRoot;else process.env.SystemRoot=old; }
+});

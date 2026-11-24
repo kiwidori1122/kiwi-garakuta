@@ -37,7 +37,12 @@ export function deploymentOrigin(value) {
 export function browserCommand(value, platform = process.platform) {
   const u = new URL(value);
   if (!(u.protocol === 'https:' || (u.protocol === 'http:' && u.hostname === '127.0.0.1')) || u.username || u.password) throw new Error('ブラウザーで開けないURLです');
-  if (platform === 'win32') return [path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'rundll32.exe'), ['url.dll,FileProtocolHandler', u.href]];
+  if (platform === 'win32') {
+    const permittedRoots = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ', letter => letter + ':\\Windows');
+    const root = permittedRoots.find(candidate => candidate.toLowerCase() === String(process.env.SystemRoot || 'C:\\Windows').toLowerCase());
+    if (!root) throw new Error('ブラウザーを自動で開けません。管理画面URL.txtから開いてください');
+    return [path.join(root, 'System32', 'rundll32.exe'), ['url.dll,FileProtocolHandler', u.href]];
+  }
   return [platform === 'darwin' ? 'open' : 'xdg-open', [u.href]];
 }
-export const openUrl = url => { const [cmd,args] = browserCommand(url); return run(cmd,args).catch(() => {}); };
+export const openUrl = async url => { try { const [cmd,args] = browserCommand(url); await run(cmd,args); } catch { console.log('ブラウザーを開けない場合は、管理画面URL.txtから開いてください。'); } };
