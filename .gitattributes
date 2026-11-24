@@ -136,3 +136,4 @@ tools/setup-pc.ps1 -text
 # きういスマホ画面：ハッシュで固定している文書の改行を変えない
 apps/kiwi-phone-screen/*.txt -text
 apps/kiwi-phone-screen/*.json -text
+apps/common/tcl-8.6.15-LICENSE.terms -text

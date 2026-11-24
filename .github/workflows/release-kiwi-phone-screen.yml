@@ -12,6 +12,8 @@ jobs:
   windows-build:
     runs-on: windows-latest
     steps:
+      - name: Keep file bytes as committed (hash-pinned notices)
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -36,7 +38,7 @@ jobs:
           @'
           from pathlib import Path
           from zipfile import ZipFile
-          package = Path('apps/kiwi-phone-screen/KiwiPhoneScreen-0.1.1-win11-x64.zip')
+          package = Path('apps/kiwi-phone-screen/KiwiPhoneScreen-0.1.2-win11-x64.zip')
           with ZipFile(package) as archive:
               names = set(archive.namelist())
               needed = {'KiwiPhoneScreen.exe', 'README.txt', 'LICENSE', 'Runtime-LICENSES.txt', 'THIRD-PARTY-NOTICES.txt',
@@ -55,4 +57,4 @@ jobs:
             Write-Output 'Release already exists; keeping verified asset.'
             exit 0
           }
-          gh release create "${{ github.ref_name }}" "apps/kiwi-phone-screen/KiwiPhoneScreen-0.1.1-win11-x64.zip" --title "きういスマホ画面 0.1.1" --notes "Windows 11 x64向けの無料ZIP版。Androidスマホの画面をPCに映して、マウスで操作したり録画したりできます（scrcpyの非公式GUI）。scrcpy本体は初回に公式配布を取得し、SHA-256を確認します。"
+          gh release create "${{ github.ref_name }}" "apps/kiwi-phone-screen/KiwiPhoneScreen-0.1.2-win11-x64.zip" --title "きういスマホ画面 0.1.2" --notes "Windows 11 x64向けの無料ZIP版。Androidスマホの画面をPCに映して、マウスで操作したり録画したりできます（scrcpyの非公式GUI）。scrcpy本体は初回に公式配布を取得し、SHA-256を確認します。"
