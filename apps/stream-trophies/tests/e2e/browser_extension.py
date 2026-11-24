@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 W, Y = 'http://127.0.0.1:8787', 'http://127.0.0.1:8899'
 ADMIN = {'Authorization': 'Bearer admin-test-key-0123456789'}
 VID = 'abcdefghijk'
-VIDEO = Path(os.environ.get('TEST_VIDEO', '/tmp/test.mp4')).read_bytes()
+VIDEO = (ROOT / 'tests' / 'e2e' / 'test.mp4').read_bytes()
 fails = 0
 
 def check(label, ok, extra=''):

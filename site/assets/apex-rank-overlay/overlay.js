@@ -1,3 +1,5 @@
+function createOverlay(runtime) {
+const { document, location, window, fetch, localStorage, setInterval, clearInterval } = runtime;
 /* ===================== 設定 =====================
   設定は、このページのURLの「#」より後ろに書きます（setup.html で作れます）。
   「#」より後ろはサーバーに送られないので、APIキーが外に漏れません。
@@ -9,8 +11,9 @@
     poll  … 取得間隔（秒、60〜600。初期値 120）
     reset … 「今日の増減」を数え直す時刻（0〜23時。初期値 18）
     scale … 表示の大きさ（0.5〜3。初期値 1）
-    proxy … 中継サーバー（worker.js）を使う場合のURL。入れると key は使わない
+    proxy … ZIP版で TRUSTED_PROXY_URL に登録した中継先だけを指定できる（key は送らない）
   =================================================== */
+const TRUSTED_PROXY_URL = ""; // ZIP版の中継先を使う場合だけ、管理するHTTPS URLをここに固定する
 const P = new URLSearchParams(location.hash.slice(1) || location.search.slice(1));
 const clampNum = (v, lo, hi, d) => { const n = Number(v); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : d; };
 const CONFIG = {
@@ -18,7 +21,7 @@ const CONFIG = {
   PLAYER:     P.get("player") || "",
   PLAYER_UID: (P.get("uid") || "").replace(/\D/g, ""),
   PLATFORM:   ["PC","PS4","X1","SWITCH"].includes(P.get("platform")) ? P.get("platform") : "PC",
-  PROXY_URL:  /^https:\/\//.test(P.get("proxy") || "") ? P.get("proxy") : "",
+  PROXY_URL: P.get("proxy") || "",
   POLL_SEC:   clampNum(P.get("poll"), 60, 600, 120),
   SESSION_RESET_HOUR: clampNum(P.get("reset"), 0, 23, 18),
   GOAL:       P.get("goal") || "Diamond",
@@ -73,14 +76,19 @@ async function fetchRank(){
   if (DEMO) return demoRank();
   if (!CONFIG.PROXY_URL && !CONFIG.API_KEY) throw new Error("APIキー未設定（setup.htmlでURLを作ってください）");
   if (!CONFIG.PROXY_URL && !CONFIG.PLAYER_UID && !CONFIG.PLAYER) throw new Error("プレイヤー未設定");
-  const url = CONFIG.PROXY_URL ||
-    `https://api.mozambiquehe.re/bridge?auth=${encodeURIComponent(CONFIG.API_KEY)}` +
-    (CONFIG.PLAYER_UID ? `&uid=${encodeURIComponent(CONFIG.PLAYER_UID)}`
-                       : `&player=${encodeURIComponent(CONFIG.PLAYER)}`) +
-    `&platform=${CONFIG.PLATFORM}`;
+  let url = new URL('https://api.mozambiquehe.re/bridge');
+  if (CONFIG.PROXY_URL) {
+    if (!TRUSTED_PROXY_URL || CONFIG.PROXY_URL !== TRUSTED_PROXY_URL) throw new Error('未登録の中継先です。ZIP版のTRUSTED_PROXY_URLで管理する接続先を指定してください');
+    url = new URL(TRUSTED_PROXY_URL);
+    if (url.protocol !== 'https:' || url.username || url.password) throw new Error('中継先はHTTPSのURLにしてください');
+  } else {
+    url.searchParams.set('auth', CONFIG.API_KEY);
+    url.searchParams.set(CONFIG.PLAYER_UID ? 'uid' : 'player', CONFIG.PLAYER_UID || CONFIG.PLAYER);
+    url.searchParams.set('platform', CONFIG.PLATFORM);
+  }
   // 設定が変わったら「今日の増減」の基準も分ける
   STORE_KEY = "apexRankBase:" + (CONFIG.PLAYER_UID || CONFIG.PLAYER || "proxy");
-  const res = await fetch(url, {cache:"no-store"});
+  const res = await fetch(url, {cache:"no-store", credentials:"omit", redirect:"error", referrerPolicy:"no-referrer", signal:AbortSignal.timeout(12000)});
   if (!res.ok) throw new Error("HTTP " + res.status);
   const j = await res.json();
   if (j.Error) throw new Error(j.Error);
@@ -171,4 +179,9 @@ async function tick(){
 
 window.addEventListener("hashchange", () => location.reload());
 tick();
-setInterval(tick, (DEMO ? 8 : CONFIG.POLL_SEC) * 1000);
+const timer = setInterval(tick, (DEMO ? 8 : CONFIG.POLL_SEC) * 1000);
+return { fetchRank, stop: () => clearInterval(timer) };
+
+}
+if (typeof module !== "undefined" && module.exports) module.exports = { createOverlay };
+else createOverlay(globalThis);

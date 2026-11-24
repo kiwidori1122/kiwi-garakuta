@@ -1,3 +1,4 @@
+import { randomInt } from 'node:crypto';
 import { handleWeb } from './web-accounts.js';
 import { attachCelebrations, awardCelebrations, saveCelebration, bindEventLive } from './celebrations.js';
 // 配信トロフィー クラウド版 (Cloudflare Workers + D1)
@@ -414,7 +415,7 @@ async function api(request, env, ctx, url) {
       if (active > 300) throw new UserError('連携の受付が混み合っています。少し待ってからやり直してください', 429);
       const claim = randomToken(), hash = await sha256(claim);
       for (let i = 0; i < 5; i++) {
-        const code = String(crypto.getRandomValues(new Uint32Array(1))[0] % 900000 + 100000);
+        const code = String(randomInt(100000, 1000000));
         const r = await env.DB.prepare('INSERT OR IGNORE INTO links(code,claim,expires) VALUES(?,?,?)').bind(code, hash, t + LINK_TTL).run();
         if (r.meta.changes) return { code, claim, expires: t + LINK_TTL };
       }

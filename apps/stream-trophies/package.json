@@ -7,7 +7,7 @@
     "setup": "node scripts/setup.mjs",
     "update": "node scripts/setup.mjs --update",
     "demo": "node scripts/demo.mjs",
-    "test": "node --test tests/extension.test.cjs tests/web-accounts.test.mjs tests/celebrations.test.mjs"
+    "test": "node --test tests/extension.test.cjs tests/web-accounts.test.mjs tests/celebrations.test.mjs tests/setup-security.test.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.164.0"

@@ -1,5 +1,6 @@
 const {test}=require('node:test');const assert=require('node:assert/strict');
-const vm=require('node:vm');const fs=require('node:fs');const path=require('node:path');
+const {createBackground}=require('../extension/background.js');
+const core=require('../extension/core.js');
 const {watched,playable,endpoint,findServers}=require('../extension/core.js');
 
 // ---------- core ----------
@@ -28,11 +29,9 @@ function worker(initial={},servers={}){
     storage:{local:{get:async keys=>Object.fromEntries([].concat(keys).filter(k=>k in data).map(k=>[k,JSON.parse(JSON.stringify(data[k]))])),set:async p=>Object.assign(data,JSON.parse(JSON.stringify(p)))}},
     action:{setBadgeText:({tabId,text})=>badges[tabId]=text,setBadgeBackgroundColor:()=>{}},
     tabs:{onRemoved:{addListener:()=>{}},create:async o=>opened.push(o.url)}};
-  const ctx=vm.createContext({chrome,URL,URLSearchParams,AbortSignal,Date,Error,JSON,Map,Set,Object,Array,Number,String,Math,Promise,
-    fetch:async(url,options)=>{const u=new URL(url);requests.push({origin:u.origin,path:u.pathname,options});const h=(servers[u.origin]||{})[u.pathname];
-      if(!h)throw new TypeError('Failed to fetch');const out=[].concat(h(options));const s=typeof out[0]==='number'?out[0]:200;const b=typeof out[0]==='number'?out[1]:out[0];return {ok:s<400,status:s,json:async()=>b};}});
-  ctx.self=ctx;ctx.importScripts=(...files)=>{for(const f of files)vm.runInContext(fs.readFileSync(path.join(__dirname,'../extension',f),'utf8'),ctx);};
-  vm.runInContext(fs.readFileSync(path.join(__dirname,'../extension/background.js'),'utf8'),ctx);
+  const fetchMock=async(url,options)=>{const u=new URL(url);requests.push({origin:u.origin,path:u.pathname,options});const h=(servers[u.origin]||{})[u.pathname];
+    if(!h)throw new TypeError('Failed to fetch');const out=[].concat(h(options));const s=typeof out[0]==='number'?out[0]:200;const b=typeof out[0]==='number'?out[1]:out[0];return {ok:s<400,status:s,json:async()=>b};};
+  createBackground(chrome,fetchMock,core);
   const send=(m,sender)=>new Promise(r=>listener(m,sender,r));
   const yt=(video='abcdefghijk',tab=1)=>({tab:{id:tab,url:'https://www.youtube.com/watch?v='+video},frameId:0,url:'https://www.youtube.com/watch?v='+video});
   return {send,data,requests,opened,badges,installed,ui:{url:`chrome-extension://${ID}/popup.html`},yt};

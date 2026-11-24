@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import readline from 'node:readline/promises';
-import { ROOT, loadState, saveState, wrangler, writeConfig, openUrl, EXTENSION_PAGE } from './common.mjs';
+import { ROOT, loadState, saveState, wrangler, writeConfig, openUrl, EXTENSION_PAGE, deploymentOrigin } from './common.mjs';
 
 const update = process.argv.includes('--update');
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -42,15 +42,13 @@ try {
   await wrangler(['d1', 'migrations', 'apply', 'DB', '--remote'], { input: 'ignore' });
 
   step(4, 'Cloudflare に公開');
-  const outFile = path.join(os.tmpdir(), `trophy-deploy-${Date.now()}.json`);
+
   console.log('（初めての場合「workers.dev のサブドメインを登録しますか」と聞かれたら、好きな英数字の名前を入力してください）');
-  await wrangler(['deploy'], { env: { WRANGLER_OUTPUT_FILE_PATH: outFile } });
-  let url = '';
-  try { for (const line of fs.readFileSync(outFile, 'utf8').split('\n')) { const e = line && JSON.parse(line); if (e?.type === 'deploy') url = (e.targets || []).find(t => t.startsWith('https://')) || url; } } catch {}
-  fs.rmSync(outFile, { force: true });
-  url ||= state.url || '';
-  if (!url) url = await ask('公開URL（上に表示された https://…workers.dev）');
-  state.url = url.replace(/\/$/, ''); state.deployed = true; saveState(state);
+  const deployOutput = await wrangler(['deploy'], { capture: true });
+  const detected = deployOutput.match(/https:\/\/stream-trophies\.[a-z0-9-]+\.workers\.dev\b/);
+  let url = detected ? detected[0] : await ask('公開URL（上に表示された https://stream-trophies.…workers.dev）');
+  url = deploymentOrigin(url);
+  state.url = url; state.deployed = true; saveState(state);
 
   step(5, '秘密情報を登録');
   state.adminKey ||= key(); state.overlayKey ||= key(); saveState(state);
@@ -65,7 +63,7 @@ try {
     for (let i = 0; i < 8 && !ok; i++) {
       await new Promise(r => setTimeout(r, 3000));
       try {
-        const r = await fetch(state.url + '/api/admin/config', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + state.adminKey }, body: JSON.stringify({ channel_id: channel, video_id: '', poll_seconds: 20 }) });
+        const r = await fetch(url + '/api/admin/config', { redirect: 'error', signal: AbortSignal.timeout(12000), method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + state.adminKey }, body: JSON.stringify({ channel_id: channel, video_id: '', poll_seconds: 20 }) });
         const d = await r.json();
         if (r.ok) { ok = true; state.channel = channel; saveState(state); console.log('チャンネルID:', d.channel_id); }
         else if (r.status !== 401) throw new Error(d.error);

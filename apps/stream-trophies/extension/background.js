@@ -2,8 +2,7 @@
 // 配信トロフィー 共通拡張
 // 1つの拡張で、複数の配信者のサーバー（Cloudflare Workers）に接続する。
 // 接続先は「配信の概要欄に書かれたURL」かつ「そのサーバーが、いま見ている配信をライブ中と答えた」場合だけ採用する。
-importScripts('core.js');
-const ALLOW_LOCAL=self.TROPHY_ALLOW_LOCAL===true; // テスト用（http://127.0.0.1 を許可）
+function createBackground(chrome, fetch, TrophyCore, ALLOW_LOCAL = false) { // テスト用（http://127.0.0.1 を許可）
 const blank={token:'',name:'',pending:null,enabled:true,title:'',channel:'',lastStatus:'',added:0};
 const publicCache=new Map(); // origin -> {at,data,error}
 const tabs=new Map();        // tabId -> {server,video}
@@ -150,3 +149,7 @@ async function handle(message,sender){
 chrome.runtime.onMessage.addListener((message,sender,reply)=>{handle(message||{},sender).then(data=>reply({ok:true,data}),e=>reply({ok:false,error:e.message||'接続できません'}));return true;});
 chrome.tabs.onRemoved.addListener(id=>{tabs.delete(id);meters.delete(id);});
 chrome.runtime.onInstalled.addListener(d=>{if(d.reason==='install')chrome.tabs.create({url:chrome.runtime.getURL('popup.html?welcome=1&page=1')});});
+
+}
+if (typeof module !== 'undefined' && module.exports) module.exports = { createBackground };
+else { importScripts('core.js'); createBackground(chrome, fetch, TrophyCore, self.TROPHY_ALLOW_LOCAL === true); }

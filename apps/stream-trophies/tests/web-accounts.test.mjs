@@ -17,8 +17,8 @@ before(async()=>{
     else if(req.url.startsWith('/youtube/subscriptions'))res.end(JSON.stringify({items:[{id:'registered'}]}));
     else{res.statusCode=404;res.end('{}');}});
   await new Promise(resolve=>mock.listen(0,'127.0.0.1',resolve));
-  const bundle=await build({entryPoints:['src/worker.js'],bundle:true,write:false,format:'esm',target:'es2022'});
-  mf=new Miniflare(convertV4MiniflareOptions({modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-06-01',d1Databases:['DB'],bindings:{DEMO:'1',SITE_ORIGIN:origin,GOOGLE_CLIENT_ID:'test-client',GOOGLE_CLIENT_SECRET:'test-secret',GOOGLE_MOCK_BASE:'http://127.0.0.1:'+mock.address().port,ADMIN_KEY:'test-admin',OVERLAY_KEY:'test-overlay'}}));
+  const bundle=await build({entryPoints:['src/worker.js'],bundle:true,write:false,format:'esm',target:'es2022',external:['node:crypto']});
+  mf=new Miniflare(convertV4MiniflareOptions({modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-06-01',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{DEMO:'1',SITE_ORIGIN:origin,GOOGLE_CLIENT_ID:'test-client',GOOGLE_CLIENT_SECRET:'test-secret',GOOGLE_MOCK_BASE:'http://127.0.0.1:'+mock.address().port,ADMIN_KEY:'test-admin',OVERLAY_KEY:'test-overlay'}}));
   db=await mf.getD1Database('DB');
   for(const file of ['0001_init.sql','0002_web_accounts.sql','0003_celebrations.sql']){const sql=await readFile('migrations/'+file,'utf8');for(const statement of sql.split(';').map(x=>x.trim()).filter(Boolean))await db.prepare(statement).run();}
   await db.prepare('INSERT INTO viewers(id,name,created,comments,characters) VALUES(?,?,?,?,?)').bind(A,'元の表示名',1,125,10050).run();
@@ -63,3 +63,11 @@ test('extension API answers any origin (no cookies); admin API does not',async()
   r=await mf.dispatchFetch(origin+'/api/admin/state',{method:'OPTIONS'});assert.equal(r.status,404);
 });
 test('expiry, logout, and deletion revoke access',async()=>{const a=await login();await call('logout',{body:{},cookie:a.cookie});assert.equal((await call('me',{cookie:a.cookie})).status,401);const second=await login();await db.prepare('UPDATE web_sessions SET expires=0 WHERE token=?').bind(hash(second.cookie.split('=')[1])).run();assert.equal((await call('me',{cookie:second.cookie})).status,401);const third=await login();assert.equal((await call('me/delete',{body:{},cookie:third.cookie})).status,200);assert.equal((await call('me',{cookie:third.cookie})).status,401);assert.ok(await db.prepare('SELECT viewer FROM optout WHERE viewer=?').bind(A).first());assert.equal(await db.prepare('SELECT id FROM viewers WHERE id=?').bind(A).first(),null);});
+
+
+test('link codes use supported worker crypto and remain six decimal digits',async()=>{
+  for(let i=0;i<4;i++){
+    const r=await mf.dispatchFetch(origin+'/api/link/start',{method:'POST',headers:{'Content-Type':'application/json','CF-Connecting-IP':'192.0.2.'+(i+1)},body:'{}'});
+    assert.equal(r.status,200);const data=await r.json();assert.match(data.code,/^[1-9][0-9]{5}$/);assert.ok(data.claim);
+  }
+});
