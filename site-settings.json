@@ -6,7 +6,7 @@
   "profile_text": "APEXやNTEを遊びつつ、楽しく遊ぶためのものづくりをしています。「これがあったら便利かも」と思った小さなソフトを、ここに置いています。気になるものがあれば、気軽に使ってみてください。",
   "stream_trophy": {
     "download_url": "/assets/downloads/stream-trophy-extension-v2.0.1.zip",
-    "store_url": "",
+    "store_url": "https://chromewebstore.google.com/detail/chnkfiagpgpgklmjcgagnocgahlhhjac",
     "server_download_url": "/assets/downloads/stream-trophies-server-v2.0.1.zip",
     "source_url": "https://github.com/kiwidori1122/kiwi-garakuta/tree/main/apps/stream-trophies"
   },

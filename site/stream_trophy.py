@@ -13,25 +13,37 @@ def content(settings):
     download = _esc(config['download_url'])
     contact = _esc(settings['contact_url'])
     store = config.get('store_url')
-    store_notice = (f'<p><a class="button" href="{_esc(store)}" rel="noopener noreferrer">Chromeウェブストアで追加する ↗</a></p><p>ストアから入れると、自動で最新版に更新されます。下のZIPは、ストアを使えない場合の手動の入れ方です。</p>'
-                    if store else '<p>Chromeウェブストアで公開準備中です。現在はZIPを展開して、手動で読み込む方法をご案内しています。</p>')
+    zip_name = _esc(config['download_url'].rsplit('/', 1)[-1])
     popup = image('/assets/screenshots/stream-trophy-popup.png', '拡張のポップアップ。連携中のチャンネルが一覧で表示されている', css='shot')
     collection = image('/assets/screenshots/stream-trophy-collection.png', 'トロフィー図鑑。コメント数や視聴時間と、獲得したトロフィーの一覧', css='shot')
-    return f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span>配信トロフィー</span></nav>
-<section class="guide-hero"><div class="eyebrow">配信に参加する · 配信トロフィー</div><h1>コメントも、いっしょの時間も、<br>トロフィーに。</h1><p class="lead">「配信トロフィー」に対応しているYouTube配信で、コメントしたり配信を見たりすると、<br>あなただけのトロフィーが集まります。拡張は1つで、対応しているどの配信者にも使えます。</p><a class="button" href="{_esc(store) if store else download}" {'' if store else 'download'} rel="noopener noreferrer">{'拡張を追加する' if store else '拡張のZIPをダウンロード'}</a><p>PCのChrome・Edge向け · バージョン2.0.1 · Googleログイン不要</p><p><a class="textlink" href="/stream-trophy/streamers/">配信者の方へ：自分の配信で使う（無料） ↗</a></p></section>
-<nav class="page-nav" aria-label="ページの内容"><a href="#join">参加のしかた</a><a href="#install">拡張の入れ方</a><a href="#commands">チャットコマンド</a><a href="#questions">よくある質問</a><a href="#privacy">データの取り扱い</a></nav>
-<div class="guide-content">
-<section class="content-section" id="join"><h2>参加のしかたは、2通り</h2><div class="guide-points"><article><h3>コメントするだけ</h3><p>対応している配信のチャットで、コメント数・総文字数・参加した配信の数・メンバーシップに応じてトロフィーが集まります。スマホからのコメントも対象です。準備は必要ありません。</p></article><article><h3>視聴時間も集める（PCのみ）</h3><p>PCのChromeかEdgeに拡張を入れて連携すると、ライブ配信を見ていた時間も記録されます。自分のトロフィー図鑑も開けます。</p></article></div><p>対応している配信は、概要欄に「配信トロフィー: https://…」と書かれています。拡張がこれを見つけると、画面の左下に「連携する」が出ます。専用のGoogleログインやアカウント連携の許可画面はありません。</p><div class="workflow-section">{popup}{collection}</div></section>
-<section class="content-section" id="install"><h2>拡張の入れ方</h2>{store_notice}<ol class="steps">
-<li><span><strong>ZIPをダウンロードする</strong>このページのボタンから <code>stream-trophy-extension-v2.0.0.zip</code> を保存します。</span></li>
+    link_steps = '''<li><span><strong>対応している配信を開く</strong>ライブ配信を開くと、左下に「連携する」が出ます（拡張のアイコンに「!」も付きます）。押すと合言葉が表示されます。</span></li>
+<li><span><strong>合言葉をライブチャットに書く</strong><code>!link 123456</code> のような合言葉を、その配信のチャットへ1回送ります。数字は自分の画面に表示されたものを使ってください。</span></li>
+<li><span><strong>連携できたことを確認する</strong>拡張の表示が「○○ さん × チャンネル名」に変われば完了です。あとはいつも通り配信を見るだけです。</span></li>'''
+    zip_steps = f'''<li><span><strong>ZIPをダウンロードする</strong><code>{zip_name}</code> を保存します。</span></li>
 <li><span><strong>ZIPをすべて展開する</strong>ZIPを右クリックして「すべて展開」を選びます。展開したフォルダーは、拡張を使う間は消さずに置いておきます。</span></li>
 <li><span><strong>拡張の管理画面を開く</strong>Chromeのアドレス欄に <code>chrome://extensions</code> と入力します。Edgeでは <code>edge://extensions</code> です。</span></li>
 <li><span><strong>デベロッパーモードをオンにする</strong>拡張の管理画面にある「デベロッパーモード」のスイッチをオンにします。</span></li>
-<li><span><strong>展開したフォルダーを読み込む</strong>「パッケージ化されていない拡張機能を読み込む」を選び、<code>manifest.json</code> が入っているフォルダーを指定します。</span></li>
-<li><span><strong>対応している配信を開く</strong>ライブ配信を開くと、左下に「連携する」が出ます（拡張のアイコンに「!」も付きます）。押すと合言葉が表示されます。</span></li>
-<li><span><strong>合言葉をライブチャットに書く</strong><code>!link 123456</code> のような合言葉を、その配信のチャットへ1回送ります。数字は自分の画面に表示されたものを使ってください。</span></li>
-<li><span><strong>連携できたことを確認する</strong>拡張の表示が「○○ さん × チャンネル名」に変われば完了です。あとはいつも通り配信を見るだけです。</span></li>
-</ol><a class="button" href="{download}" download>ZIPをダウンロード</a><p>合言葉は15分有効です。期限が切れたら「新しい合言葉を発行」から出し直せます。旧版（1.0.0）を入れている方は、旧版を削除してからこの版を入れ、もう一度連携してください。</p><p>手動で入れた拡張について、ブラウザーから確認が表示される場合があります。名前・配布元・権限を確認し、不明な場合は読み込みを中止してください。</p></section>
+<li><span><strong>展開したフォルダーを読み込む</strong>「パッケージ化されていない拡張機能を読み込む」を選び、<code>manifest.json</code> が入っているフォルダーを指定します。</span></li>'''
+    if store:
+        install_body = (f'<ol class="steps">'
+                        f'<li><span><strong>Chromeウェブストアで追加する</strong><a href="{_esc(store)}" rel="noopener noreferrer">配信トロフィーのストアページ</a>を開き、「Chromeに追加」を押します。Edgeでも同じページから追加できます（最初に「他のストアからの拡張機能を許可」を選んでください）。</span></li>'
+                        f'{link_steps}</ol>'
+                        f'<a class="button" href="{_esc(store)}" rel="noopener noreferrer">Chromeウェブストアで追加する ↗</a>'
+                        f'<p>ストアから入れると、新しい版が出たときに自動で更新されます。</p>'
+                        f'<details><summary>ストアを使えない場合（ZIPから手動で入れる）</summary><ol class="steps">{zip_steps}</ol>'
+                        f'<a class="button button-secondary" href="{download}" download>ZIPをダウンロード</a>'
+                        f'<p>手動で入れた拡張は自動で更新されません。ブラウザーから確認が表示される場合があります。名前・配布元・権限を確認し、不明な場合は読み込みを中止してください。</p></details>')
+    else:
+        install_body = (f'<p>Chromeウェブストアで公開準備中です。現在はZIPを展開して、手動で読み込む方法をご案内しています。</p>'
+                        f'<ol class="steps">{zip_steps}{link_steps}</ol>'
+                        f'<a class="button" href="{download}" download>ZIPをダウンロード</a>'
+                        f'<p>手動で入れた拡張について、ブラウザーから確認が表示される場合があります。名前・配布元・権限を確認し、不明な場合は読み込みを中止してください。</p>')
+    return f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span>配信トロフィー</span></nav>
+<section class="guide-hero"><div class="eyebrow">配信に参加する · 配信トロフィー</div><h1>コメントも、いっしょの時間も、<br>トロフィーに。</h1><p class="lead">「配信トロフィー」に対応しているYouTube配信で、コメントしたり配信を見たりすると、<br>あなただけのトロフィーが集まります。拡張は1つで、対応しているどの配信者にも使えます。</p><a class="button" href="{_esc(store) if store else download}" {'' if store else 'download'} rel="noopener noreferrer">{'Chromeウェブストアで追加する ↗' if store else '拡張のZIPをダウンロード'}</a><p>PCのChrome・Edge向け · {'Chromeウェブストアで公開中' if store else 'バージョン2.0.1'} · Googleログイン不要</p><p><a class="textlink" href="/stream-trophy/streamers/">配信者の方へ：自分の配信で使う（無料） ↗</a></p></section>
+<nav class="page-nav" aria-label="ページの内容"><a href="#join">参加のしかた</a><a href="#install">拡張の入れ方</a><a href="#commands">チャットコマンド</a><a href="#questions">よくある質問</a><a href="#privacy">データの取り扱い</a></nav>
+<div class="guide-content">
+<section class="content-section" id="join"><h2>参加のしかたは、2通り</h2><div class="guide-points"><article><h3>コメントするだけ</h3><p>対応している配信のチャットで、コメント数・総文字数・参加した配信の数・メンバーシップに応じてトロフィーが集まります。スマホからのコメントも対象です。準備は必要ありません。</p></article><article><h3>視聴時間も集める（PCのみ）</h3><p>PCのChromeかEdgeに拡張を入れて連携すると、ライブ配信を見ていた時間も記録されます。自分のトロフィー図鑑も開けます。</p></article></div><p>対応している配信は、概要欄に「配信トロフィー: https://…」と書かれています。拡張がこれを見つけると、画面の左下に「連携する」が出ます。専用のGoogleログインやアカウント連携の許可画面はありません。</p><div class="workflow-section">{popup}{collection}</div></section>
+<section class="content-section" id="install"><h2>拡張の入れ方</h2>{install_body}<p>合言葉は15分有効です。期限が切れたら「新しい合言葉を発行」から出し直せます。旧版（1.0.0）を入れている方は、旧版を削除してからこの版を入れ、もう一度連携してください。</p></section>
 <section class="content-section" id="commands"><h2>チャットコマンド</h2><p>対応している配信のライブチャットに書き込みます。チャンネルごとに別々に記録されます。</p><div class="guide-points"><article><h3><code>!link 123456</code></h3><p>拡張と連携します。数字は拡張に表示された合言葉に置き換えます。</p></article><article><h3><code>!trophy off</code></h3><p>そのチャンネルでの自分の記録・トロフィー・連携を削除し、以後の記録を止めます。</p></article><article><h3><code>!trophy on</code></h3><p>記録を再開します。削除前の記録は戻りません。</p></article></div></section>
 <section class="content-section faq" id="questions"><h2>よくある質問</h2>
 <details><summary>参加しないといけませんか？</summary><p>参加は任意です。記録されたくない場合は、その配信のライブチャットに <code>!trophy off</code> と書いてください。拡張を入れなくても、配信は今まで通り楽しめます。</p></details>
@@ -54,6 +66,8 @@ def streamers(settings):
     server = _esc(config['server_download_url'])
     source = _esc(config['source_url'])
     contact = _esc(settings['contact_url'])
+    store = config.get('store_url')
+    store_line = (f'<p>拡張はChromeウェブストアで公開しています。ストアのページを直接案内しても大丈夫です：<a class="textlink" href="{_esc(store)}" rel="noopener noreferrer">配信トロフィー（Chromeウェブストア） ↗</a></p>' if store else '')
     admin = image('/assets/screenshots/stream-trophy-admin.png', '管理画面の「YouTube接続」。配信の状態と、概要欄に書く1行が表示されている', css='shot')
     collection = image('/assets/screenshots/stream-trophy-collection.png', '視聴者のトロフィー図鑑', css='shot')
     return f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><a href="/streaming/">配信者向け</a><span>/</span><span>配信トロフィー</span></nav>
@@ -68,7 +82,7 @@ def streamers(settings):
 <li><span><strong>OBSにブラウザソースを追加</strong>できあがった「管理画面URL.txt」の「OBS ブラウザソース」のURLを、幅1920・高さ1080で追加します。</span></li>
 <li><span><strong>配信の概要欄に1行書く</strong>「管理画面URL.txt」にある <code>配信トロフィー: https://…</code> の1行を、概要欄に入れます。YouTube Studioの「アップロード動画のデフォルト設定」に入れておくと、毎回書かずに済みます。</span></li>
 </ol><a class="button" href="{server}" download>配信者用セットをダウンロード</a><p>管理画面とOBSのURLは他の人に見せないでください。概要欄の1行は公開して大丈夫です。</p></section>
-<section class="content-section" id="viewers"><h2>視聴者への案内</h2><p>「PCのChrome・Edgeに拡張を入れると、視聴時間でもトロフィーが集まるよ」と、このページを案内してください。拡張を入れていない人も、コメントの実績は自動で集まります。</p><p><code>https://kiwi-garakuta.pages.dev/stream-trophy/</code></p><p>チャットに <code>!trophy off</code> と書いた人は記録が削除され、以後は記録されません。</p></section>
+<section class="content-section" id="viewers"><h2>視聴者への案内</h2><p>「PCのChrome・Edgeに拡張を入れると、視聴時間でもトロフィーが集まるよ」と、このページを案内してください。拡張を入れていない人も、コメントの実績は自動で集まります。</p><p><code>https://kiwi-garakuta.pages.dev/stream-trophy/</code></p>{store_line}<p>チャットに <code>!trophy off</code> と書いた人は記録が削除され、以後は記録されません。</p></section>
 <section class="content-section faq" id="faq"><h2>よくある質問</h2>
 <details><summary>本当に無料ですか？</summary><p>ツールは無料です。CloudflareのWorkers・D1と、YouTube Data APIの無料枠の範囲で動きます。配信中のコメント取得は1時間あたり約900ユニットで、1日の上限1万ユニットに対し、1日10時間くらいまで余裕があります。</p></details>
 <details><summary>クレジット表記は必要ですか？</summary><p>任意です。MIT Licenseなので改造・再配布も自由です。概要欄などで紹介してもらえるとうれしいです。</p></details>
