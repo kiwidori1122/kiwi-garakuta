@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "配信トロフィー",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "対応しているYouTubeライブを見るだけで、視聴時間やコメントでトロフィーが集まります。Googleログイン不要。",
   "permissions": [
     "storage"

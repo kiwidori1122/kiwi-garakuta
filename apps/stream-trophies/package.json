@@ -1,6 +1,6 @@
 {
   "name": "stream-trophies",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "description": "配信トロフィー：YouTubeライブの視聴者トロフィー（Cloudflare Workers + D1、共通拡張）",
   "scripts": {
