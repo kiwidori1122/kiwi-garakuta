@@ -3,7 +3,7 @@ import hashlib, importlib.metadata, json, os, shutil, subprocess, sys, tempfile,
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 NAME = 'KiwiPhoneScreen'
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 
 def build():

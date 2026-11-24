@@ -132,3 +132,7 @@ apps/stream-trophies/*.bat text eol=crlf
 tools/guard/*.sh text eol=lf
 tools/setup-pc.bat text eol=crlf
 tools/setup-pc.ps1 -text
+
+# きういスマホ画面：ハッシュで固定している文書の改行を変えない
+apps/kiwi-phone-screen/*.txt -text
+apps/kiwi-phone-screen/*.json -text
