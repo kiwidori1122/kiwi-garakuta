@@ -1,4 +1,9 @@
 {
+  "kiwi-phone-screen": {
+    "url": "https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-phone-screen-v0.1.3/KiwiPhoneScreen-0.1.3-win11-x64.zip",
+    "bytes": 11806756,
+    "sha256": "f72183a454ad132e14698451d517794ce74819fcf4b1cf86443082da1da260e6"
+  },
   "kiwi-pdf-stamp": {
     "url": "https://github.com/kiwidori1122/kiwi-garakuta/releases/download/kiwi-pdf-stamp-v0.1.0/KiwiPDFStamp-0.1.0-win11-x64.zip",
     "bytes": 19395835,

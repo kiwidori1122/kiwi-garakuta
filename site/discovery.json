@@ -37,6 +37,31 @@
     }
   ],
   "tools": {
+    "kiwi-phone-screen": {
+      "category": "pc",
+      "tags": [
+        "スマホをPCに映す",
+        "マウスで操作",
+        "画面を録画"
+      ],
+      "keywords": [
+        "スマホ",
+        "Android",
+        "ミラーリング",
+        "画面ミラー",
+        "画面共有",
+        "画面録画",
+        "スマホ録画",
+        "USBデバッグ",
+        "adb",
+        "scrcpy",
+        "スマホ操作",
+        "PCで操作"
+      ],
+      "alias_names": [
+        "きういスマホミラー"
+      ]
+    },
     "kiwi-reading-workbench": {
       "category": "document",
       "tags": [
