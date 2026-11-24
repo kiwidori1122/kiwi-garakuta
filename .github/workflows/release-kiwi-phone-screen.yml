@@ -1,0 +1,58 @@
+name: Release Kiwi Phone Screen
+
+on:
+  push:
+    tags:
+      - kiwi-phone-screen-v*
+
+permissions:
+  contents: write
+
+jobs:
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.2'
+      - name: Install build dependency
+        run: python -m pip install pyinstaller==6.22.2
+      - name: Verify logic and pinned engine data
+        run: python apps/kiwi-phone-screen/verify.py
+      - name: Check pinned engine against the official release
+        shell: pwsh
+        run: |
+          $pin = Get-Content -Raw apps/kiwi-phone-screen/upstream-pin.json | ConvertFrom-Json
+          Invoke-WebRequest -Uri $pin.url -OutFile engine.zip
+          $hash = (Get-FileHash engine.zip -Algorithm SHA256).Hash.ToLower()
+          if ($hash -ne $pin.sha256 -or (Get-Item engine.zip).Length -ne $pin.size) { throw 'Engine pin mismatch' }
+          Remove-Item engine.zip
+      - name: Build portable ZIP
+        run: python apps/kiwi-phone-screen/build.py
+      - name: Check ZIP contents
+        shell: pwsh
+        run: |
+          @'
+          from pathlib import Path
+          from zipfile import ZipFile
+          package = Path('apps/kiwi-phone-screen/KiwiPhoneScreen-0.1.0-win11-x64.zip')
+          with ZipFile(package) as archive:
+              names = set(archive.namelist())
+              needed = {'KiwiPhoneScreen.exe', 'README.txt', 'LICENSE', 'Runtime-LICENSES.txt', 'THIRD-PARTY-NOTICES.txt',
+                        'PyInstaller-LICENSE.txt', 'OpenSSL-LICENSE.txt', 'upstream-pin.json', 'build-sources.json'}
+              assert needed <= names, needed - names
+              assert not any(n.lower().endswith(('scrcpy.exe', 'adb.exe')) for n in names), 'engine must not be bundled'
+          print('ZIP contents OK')
+          '@ | python -
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          gh release view "${{ github.ref_name }}" --json tagName 2>$null | Out-Null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output 'Release already exists; keeping verified asset.'
+            exit 0
+          }
+          gh release create "${{ github.ref_name }}" "apps/kiwi-phone-screen/KiwiPhoneScreen-0.1.0-win11-x64.zip" --title "きういスマホ画面 0.1.0" --notes "Windows 11 x64向けの無料ZIP版。Androidスマホの画面をPCに映して、マウスで操作したり録画したりできます（scrcpyの非公式GUI）。scrcpy本体は初回に公式配布を取得し、SHA-256を確認します。"

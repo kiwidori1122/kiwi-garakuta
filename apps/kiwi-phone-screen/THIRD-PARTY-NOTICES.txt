@@ -1,0 +1,17 @@
+Kiwi Phone Screen GUI: MIT (LICENSE).
+This is an independent, unofficial interface; it is not a product of Genymobile or the scrcpy project.
+
+scrcpy is copyright Genymobile and Romain Vimont, licensed under the Apache License 2.0.
+No scrcpy executable, server, adb or library is distributed in this GUI ZIP. First-use setup
+obtains the unchanged official Windows release archive (scrcpy-win64-v5.0.1.zip) from
+https://github.com/Genymobile/scrcpy/releases/tag/v5.0.1 . The exact URL, archive SHA-256
+and member SHA-256 values are recorded in upstream-pin.json. The downloaded LICENSE.txt
+remains with that engine. The official archive also contains adb and AdbWin DLLs from the
+Android SDK Platform-Tools, and SDL3, FFmpeg (LGPL) and libusb (LGPL) libraries, as
+distributed by the scrcpy project; their terms are those of the official release.
+The engine runs as separate processes. This interface checks pinned hashes before use.
+scrcpy sources: https://github.com/Genymobile/scrcpy/tree/v5.0.1
+
+Bundled Python3.13.2 and Tcl/Tk8.6.15: Runtime-LICENSES.txt.
+OpenSSL terms for the Python network runtime: OpenSSL-LICENSE.txt.
+PyInstaller6.22.2 bootloader terms and distribution exception: PyInstaller-LICENSE.txt.
