@@ -8,7 +8,7 @@
 2. 新しい空のフォルダーへ取得します。
 
    ```sh
-   git clone https://github.com/kiwidori1122/kiwi-garakuta.git
+   git -c core.autocrlf=false clone https://github.com/kiwidori1122/kiwi-garakuta.git
    cd kiwi-garakuta
    tools\setup-pc.bat
    ```
