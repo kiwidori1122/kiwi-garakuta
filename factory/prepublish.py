@@ -46,6 +46,10 @@ def main() -> None:
     tasks.extend((item["slug"], "dependency_source_url", item["dependency_source_url"]) for item in catalog if item.get("dependency_source_url"))
     tasks.extend((item["slug"], "upstreams", u["url"]) for item in catalog for u in item.get("upstreams", []))
     tasks.extend((item["slug"], "model_sources", m["url"]) for item in catalog for m in item.get("model_sources", []))
+    settings = json.loads((ROOT / "site-settings.json").read_text(encoding="utf-8"))
+    mod_download = settings.get("kiwi_helper", {}).get("download_url")
+    if mod_download:
+        tasks.append(("kiwi-helper", "download_url", mod_download))
     with ThreadPoolExecutor(max_workers=4) as executor:
         results = list(executor.map(available, (url for _, _, url in tasks)))
     for (slug, field, url), ok in zip(tasks, results):

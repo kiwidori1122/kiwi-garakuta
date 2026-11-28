@@ -112,10 +112,14 @@ class Site:
         if path.startswith('/stream-trophy/'):
             share_image, share_alt = '/assets/screenshots/stream-trophy-collection.png', '配信トロフィーのトロフィー図鑑'
             share_width, share_height = image_size(share_image)
+        elif path == '/kiwi-helper/':
+            from kiwi_helper import HERO_ALT, HERO_IMAGE
+            share_image, share_alt = HERO_IMAGE, HERO_ALT
+            share_width, share_height = image_size(share_image)
         elif path == '/apex-rank-overlay/':
             share_image, share_alt = '/assets/screenshots/apex-rank-overlay.png', 'Apexランク表示オーバーレイ'
             share_width, share_height = image_size(share_image)
-        area = 'streaming' if path in ('/streaming/', '/stream-trophy/streamers/', '/apex-rank-overlay/') else 'viewers' if path.startswith('/stream-trophy/') else 'software'
+        area = 'streaming' if path in ('/streaming/', '/stream-trophy/streamers/', '/apex-rank-overlay/') else 'viewers' if path.startswith('/stream-trophy/') else '' if path == '/kiwi-helper/' else 'software'
         nav_items = [('software', '/#software', 'Windowsソフト'), ('streaming', '/streaming/', '配信者向け'), ('viewers', '/stream-trophy/', '視聴者向け')]
         navigation = ''.join(f'<a href="{url}"' + (' aria-current="page"' if path == url else ' aria-current="location"' if key == area and path != '/' else '') + f'>{label}</a>' for key, url, label in nav_items)
         return f'''<!doctype html>
@@ -167,7 +171,7 @@ class Site:
 <a class="destination destination-daily" href="#software"><span class="destination-icon">{icon('files')}</span><h2>Windowsソフト</h2><p>写真・PDF・動画・ファイル整理。<br>日々の「ちょっと面倒」を手軽に。</p><span class="destination-link">{len(self.active)}本のソフトを探す</span></a>
 <a class="destination destination-streaming" href="/streaming/"><span class="destination-icon">{icon('media')}</span><h2>配信者向け</h2><p>配信に演出や楽しみを足す。<br>OBSの表示・視聴者トロフィー。</p><span class="destination-link">自分の配信で使うツールを見る</span></a>
 <a class="destination destination-viewers" href="/stream-trophy/"><span class="destination-icon">{icon('check')}</span><h2>視聴者向け</h2><p>コメントや一緒に見た時間を記録。<br>配信トロフィーを集めて楽しむ。</p><span class="destination-link">トロフィーの参加方法を見る</span></a>
-</nav></section>
+</nav><a class="quick-pick minecraft-entry" href="/kiwi-helper/"><span class="pick-icon">{icon('check')}</span><span><strong>お手伝いさんbot Mod</strong><small>Minecraft Java版の畑や整地を、きういちゃんにおまかせ</small></span>{icon('arrow')}</a></section>
 <section class="home-hero daily-start" aria-labelledby="daily-title"><div class="hero-copy"><div class="section-kicker">PCの作業に使うなら</div><h2 id="daily-title">Windowsの、小さな便利道具。</h2><p class="lead">写真を整える。PDFをまとめる。ファイルを渡す。<br>使い道やソフト名から探せます。</p>{self.search()}<div class="search-examples"><span>たとえば</span>{examples}</div></div>
 <aside class="quick-start" aria-label="日常の作業におすすめ"><div class="section-kicker">まずはこのあたりから</div>{picks}<a class="guide-link" href="/guide/">はじめて使う方へ：ZIPの開き方</a></aside></section>'''
         counts = {c: sum(self.meta[t['slug']]['category'] == c for t in self.active) for c in self.categories}
@@ -277,6 +281,10 @@ class Site:
     def apex_overlay(self):
         from stream_trophy import apex_overlay
         return self.page('Apexランク表示オーバーレイ', 'Apex Legendsのランク・RP・今日の増減・目標までの残りRPを表示する、無料のOBS用ブラウザソース。URLを作って貼るだけ。', apex_overlay(self.settings), '/apex-rank-overlay/')
+
+    def kiwi_helper(self):
+        from kiwi_helper import DESCRIPTION, ROUTE, TITLE, content
+        return self.page(TITLE, DESCRIPTION, content(self.settings), ROUTE)
 
     def guide(self):
         body = f'''<nav class="crumb" aria-label="パンくず"><a href="/">ホーム</a><span>/</span><span>はじめての方へ</span></nav>

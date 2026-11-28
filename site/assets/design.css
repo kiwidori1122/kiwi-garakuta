@@ -463,6 +463,8 @@ html{scroll-padding-top:110px}.site-header{position:sticky;top:0;z-index:20}sect
 .destination h2{font-size:22px;line-height:1.5;margin:0 0 8px}
 .destination p{font-size:16px;line-height:1.8;color:var(--muted);margin:0 0 20px}
 .destination-link{font-size:14px;font-weight:750;color:var(--green);text-decoration:underline;text-underline-offset:4px;margin-top:auto}
+.minecraft-entry{width:fit-content;margin:18px 0 0}
+.minecraft-entry small{font-size:14px}
 .daily-start{border-top:1px solid var(--line);margin-top:38px;padding-top:36px;gap:36px}
 .daily-start h2{font-size:clamp(24px,2.6vw,34px);line-height:1.5;letter-spacing:-.035em;margin:12px 0}
 .daily-start .quick-pick small{font-size:14px}
